@@ -8,10 +8,18 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
 
     font-family: Poppins;
+
+    border: 0;
+    background-color: #b7b6b6ed;
   }
 
   body {
     font-family: 'Poppins', sans-serif;
   }
 
+  main{
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  }
 `;

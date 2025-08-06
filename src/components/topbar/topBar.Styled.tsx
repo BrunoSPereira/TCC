@@ -1,21 +1,23 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background: #1e1e1e;
-  position: fixed;
-  top: 0;
-  left: 0;
+
   width: 100%;
-  height: 60px;
+  height: 50px;
+
+  padding: 0.5rem;
 
   display: flex;
   align-items: center;
   justify-content: flex-end;
   
-  padding: 0 2rem;
+  border-bottom-width: 2px;
+  border-color: #969595;  
+  border-style: solid;
+  
+  img {
+  height: 100%;
+  object-fit: contain;
+}
 
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
-  z-index: 10;
-
-  color: white;
 `;

@@ -1,4 +1,9 @@
+import { Routes, Route } from "react-router-dom"
+import TopBar from '../topbar/topBar'
 import * as Style from './main.Styled'
+import Home from "../pages/Home"
+import Clientes from "../pages/CadastroCliente"
+
 
 export const MainContent = () =>  {
 
@@ -6,8 +11,15 @@ export const MainContent = () =>  {
     <>
     
     <Style.Container>
-      <h2>Main content</h2>
-      <p>Main content</p> 
+    <TopBar/>
+    <div className="content">
+  
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/CadastroCliente" element={<Clientes />} />
+        </Routes>
+
+    </div>
     </Style.Container>
 
     </>
