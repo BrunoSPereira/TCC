@@ -4,6 +4,8 @@ export const Container = styled.div`
 
   width: 250px;
   height: 100vh;     
+
+  padding-top: 0.5rem;
     
   border-right-width: 2px;
   border-color: #969595;  
@@ -37,6 +39,10 @@ export const Container = styled.div`
   }
 }
 
+
+@media only screen and (max-width: 400px) {
+  display: none;
+}
 
 `;
 

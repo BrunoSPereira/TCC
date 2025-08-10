@@ -1,5 +1,6 @@
 import * as Style from './sideBar.Styled'
 import { Link } from "react-router-dom";
+import UserTag from './UserTag';
 
 export const SideBar = () =>  {
 
@@ -7,7 +8,8 @@ export const SideBar = () =>  {
     <>
     
     <Style.Container>
-      <h1>Menu</h1> 
+    
+    <UserTag/>
 
         <nav className='Links'>
           <ul>
