@@ -1,4 +1,5 @@
 import * as Style from './UserTag.Styed'
+import { FiLogOut } from "react-icons/fi";
 
 export const UserTag = () =>  {
 
@@ -14,9 +15,8 @@ export const UserTag = () =>  {
      <div className="welcome">Bem Vindo</div>
      <div className="role">Administrador</div>
  </div>
-    <div className="logout">
-      <span className="logout-icon">⎋</span> sair
-    </div>
+     <button className="logout">
+    <FiLogOut className="logout-icon" /></button>
     </div>
 
     </Style.Container>

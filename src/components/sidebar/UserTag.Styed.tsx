@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
 
 .admin-card{
-  background-color: #0000006c;
+  background-color: #8e8e8e6c;
   border-radius: 15px;
   padding: 0.5rem;
   display: flex;
@@ -37,7 +37,6 @@ export const Container = styled.div`
     }
 
     .user-info .role {
-      color: #dcdcdc;
       font-size: 12px;  
     }
 
@@ -45,13 +44,14 @@ export const Container = styled.div`
       margin-left: auto;
       display: flex;
       align-items: center;
-      color: red;
+      color: #d50101;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
     }
 
-    .logout-icon {
-      margin-right: 5px;
+    .logout:hover {
+    opacity: 0.8; /* efeito no hover */
     }
+
 `;
 

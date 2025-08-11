@@ -4,44 +4,38 @@ export const Container = styled.div`
 
   width: 250px;
   height: 100vh;     
-
   padding-top: 0.5rem;
-    
-  border-right-width: 2px;
-  border-color: #969595;  
-  border-style: solid;
-
-  
-  /* box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5); */
-  z-index: 10;
-
-  h1{
-    font-weight: 600;
-    padding: 1rem;
-    text-align: center;
-  }
+  background-color: #303030;
+  padding: 1rem;
 
 .Links {
+  
+  p{
+    font-size: 18px;
+        margin-bottom: 25px;
+
+  }
+
   li {
     list-style: none;
-
-    a {
-      all: unset;
-      display: block;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      text-decoration: none;
-
-      &:hover {
-        background: #606060;
-      }
-    }
+    margin-bottom: 20px;
   }
-}
 
+  a {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
-@media only screen and (max-width: 400px) {
-  display: none;
+  a:active{
+      color: #12B1FA;
+  }
+
+  a:hover {
+    color: #12B1FA;
+  }
+
 }
 
 `;

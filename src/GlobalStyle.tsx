@@ -5,9 +5,7 @@ export const GlobalStyle = createGlobalStyle`
 * {
     margin: 0;
     padding: 0;
-
-    font-family: Poppins;
-
+    background: none;
     border: 0;
   }
 
@@ -20,8 +18,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #b7b6b6ed;
-    font-family: 'Poppins', sans-serif;
+    background-color: #232323;
+    font-family: "Inter", sans-serif;
+    color: #DEDEDE;
+
   }
 
   main{

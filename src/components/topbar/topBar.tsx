@@ -6,7 +6,7 @@ export const TopBar = () =>  {
     <>
     
     <Style.Container>
-      <img src="src/assets/Logo.svg"/>
+      
     </Style.Container>
 
     </>
