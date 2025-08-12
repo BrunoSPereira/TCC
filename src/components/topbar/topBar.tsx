@@ -1,16 +1,11 @@
-import * as Style from './topBar.Styled'
+import * as Style from "./topBar.Styled";
 
-export const TopBar = () =>  {
-
-  return(
+export const TopBar = () => {
+  return (
     <>
-    
-    <Style.Container>
-      
-    </Style.Container>
-
+      <Style.Container></Style.Container>
     </>
-  )
-}
+  );
+};
 
-export default TopBar
+export default TopBar;

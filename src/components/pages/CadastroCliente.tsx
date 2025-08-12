@@ -1,10 +1,9 @@
-export const CadastroCliente = () =>  {
-
-  return(
+export const CadastroCliente = () => {
+  return (
     <>
-  <p>Cadastror clienter</p>
+      <p>Cadastror clienter</p>
     </>
-  )
-}
+  );
+};
 
-export default CadastroCliente
+export default CadastroCliente;

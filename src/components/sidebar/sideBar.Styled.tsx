@@ -1,42 +1,70 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-
-  width: 250px;
-  height: 100vh;     
-  padding-top: 0.5rem;
+  width: 300px;
+  height: 100vh;
   background-color: #303030;
-  padding: 1rem;
+  padding: 1.5rem 1rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-.Links {
-  
-  p{
-    font-size: 18px;
-        margin-bottom: 25px;
-
+  .card-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  li {
-    list-style: none;
-    margin-bottom: 20px;
+  .p {
+    font-size: 12px;
+    color: #6b7f9e;
+    font-weight: 500;
+    margin-top: 10px;
   }
 
-  a {
-    all: unset;
-    display: block;
-    cursor: pointer;
-    text-decoration: none;
+  .logo {
+    text-align: center;
   }
 
-  a:active{
-      color: #12B1FA;
+  .logo img {
+    width: 60px;
   }
 
-  a:hover {
-    color: #12B1FA;
+  .Links {
+    .section-title {
+      font-size: 16px;
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    a {
+      all: unset;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.8rem 0.8rem 0.8rem 0rem;
+      cursor: pointer;
+    }
+
+    a:active {
+      color: #6b7f9e;
+    }
+
+    a:hover {
+      color: #6b7f9e;
+    }
+
+    .icon {
+      font-size: 1.5rem;
+    }
+
+    ul {
+      margin-left: 1rem;
+    }
   }
-
-}
-
 `;
-

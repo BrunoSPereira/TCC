@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
- 
+
 export const GlobalStyle = createGlobalStyle`
 
 * {
@@ -20,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: #232323;
     font-family: "Inter", sans-serif;
+    font-size: 15px;
     color: #DEDEDE;
 
   }

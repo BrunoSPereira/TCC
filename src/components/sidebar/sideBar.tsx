@@ -1,60 +1,65 @@
-import * as Style from './sideBar.Styled'
+import * as Style from "./sideBar.Styled";
+import UserTag from "./UserTag";
 import { NavLink } from "react-router-dom";
+import { MdHome, MdPerson, MdInventory2, MdBuild } from "react-icons/md";
 
-import { MdHome } from "react-icons/md";
-import { MdPerson } from "react-icons/md";
-import { FaBox } from "react-icons/fa";
-import { BsTools } from "react-icons/bs";
-
-export const SideBar = () =>  {
-
-  return(
-    <>
-    
+export const SideBar = () => {
+  return (
     <Style.Container>
-    
-    <nav className='Links'>
-      <ul>
-        <li>
-          <NavLink 
-          to="/"
-          className={({ isActive }) => (isActive ? "active" : "")} >
-            <MdHome className="icons" /> Home
-          </NavLink>
-        </li>     
+      <div className="card-menu">
+        <UserTag />
+        <nav className="Links">
+          <ul>
+            <li>
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <MdHome className="icon" /> Home
+              </NavLink>
+            </li>
 
-        <p>Cadastros</p>
+            <li className="section-title">Cadastros</li>
 
-        <li>
-          <NavLink to="/CadastroCliente"
-          className={({ isActive }) => (isActive ? "active" : "")} >
-            <MdPerson className="icons" /> Clientes
-          </NavLink>
-        </li>
+            <li>
+              <NavLink
+                to="/CadastroCliente"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <MdPerson className="icon" /> Clientes
+              </NavLink>
+            </li>
 
-        <li>
-          <NavLink to="/CadastroProduto"
-          className={({ isActive }) => (isActive ? "active" : "")} >
-            <FaBox className="icons" /> Produtos
-          </NavLink>
-        </li>
+            <li>
+              <NavLink
+                to="/CadastroProduto"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <MdInventory2 className="icon" /> Produtos
+              </NavLink>
+            </li>
 
-        <p>Gerenciamento</p>
+            <li className="section-title">Gerenciamento</li>
 
-        <li>
-          <NavLink to="/Cadastros"
-          className={({ isActive }) => (isActive ? "active" : "")} >
-            <BsTools className="icons" /> Ordens de serviço
-          </NavLink>
-        </li>
+            <li>
+              <NavLink
+                to="/CadastroOs"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <MdBuild className="icon" /> Ordens de serviço
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-      </ul>
-    </nav>
-
+      <div className="logo">
+        <img src="src/assets/Logo.png" alt="Logo" />
+        <p className="p">TCC foda da Gio e do Bruno 0.0.1</p>
+      </div>
     </Style.Container>
+  );
+};
 
-    </>
-  )
-}
-
-export default SideBar
+export default SideBar;
