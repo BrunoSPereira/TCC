@@ -21,7 +21,7 @@ export const Container = styled.div`
     font-weight: 500;
     margin-top: 10px;
   }
-aaa
+
   .logo {
     text-align: center;
   }
