@@ -5,6 +5,9 @@ create table usuarios(
 	constraint pk_usuarios primary key (login)
 );
 
+insert into usuarios (login, senha, nome)
+values ('admin', '$2b$12$UxPtrwJC5eAaeSBR1MJDX.lnFV.oEjDv17R.vPGSauEa4JdkIBjNi', 'administrador');
+
 create table pessoas (
 	id_pessoa serial,
 	cpf_cnpj varchar(14) not null,
