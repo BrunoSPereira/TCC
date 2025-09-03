@@ -7,6 +7,7 @@ import (
 	"github.com/giogiovana/TCC/config"
 	"github.com/giogiovana/TCC/database"
 	"github.com/giogiovana/TCC/services"
+	"github.com/giogiovana/TCC/services/api"
 
 	_ "github.com/lib/pq"
 )
@@ -26,10 +27,14 @@ func main() {
 
 	defer db.Closer()
 
+	service := services.New(cfg)
+
+	service.StartMigrations()
+
 	fmt.Println("Conexão DB com Sucesso!")
 
-	service := services.New(cfg.ApiConfig, db)
+	api := api.New(cfg.ApiConfig, db)
 
-	service.Listen()
+	api.Listen()
 
 }

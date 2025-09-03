@@ -1,0 +1,99 @@
+package api
+
+import (
+	"context"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/giogiovana/TCC/config"
+	"github.com/giogiovana/TCC/controllers"
+	"github.com/giogiovana/TCC/services"
+
+	"github.com/giogiovana/TCC/database"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+)
+
+type Server struct {
+	cfg *config.ApiConfig
+	db  *database.DAO
+}
+
+func New(cfg *config.ApiConfig, dao *database.DAO) *Server {
+	return &Server{cfg: cfg, db: dao}
+}
+
+func (s *Server) Listen() {
+	r := chi.NewRouter()
+	r.Use(middleware.RequestID, middleware.RealIP, middleware.Logger, middleware.Recoverer)
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		_, _ = w.Write([]byte("sistema-os"))
+	})
+
+	usuarioRepo := database.NewUsuarioRepo(s.db)
+	clienteRepo := database.NewClienteRepo(s.db)
+
+	usuarioSvc := services.NewUsuarioService(usuarioRepo)
+	clienteSvc := services.NewClienteService(clienteRepo)
+
+	// auth (login/JWT)
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		log.Fatal("JWT_SECRET não definido")
+	}
+
+	authCtl := controllers.NewAuthController(usuarioSvc, []byte(secret))
+	authCtl.Register(r)
+
+	// usuários (protegido por Bearer JWT)
+	usuarioCtl := controllers.NewUsuarioController(usuarioSvc)
+	clienteCtl := controllers.NewClienteController(clienteSvc)
+
+	r.Group(func(pr chi.Router) {
+		pr.Use(controllers.AuthMiddleware([]byte(secret)))
+		usuarioCtl.Register(pr)
+		clienteCtl.Register(pr)
+	})
+
+	addr := s.cfg.Port
+	if addr == "" {
+		addr = "8080"
+	}
+	if addr[0] != ':' {
+		addr = ":" + addr
+	}
+
+	srv := &http.Server{
+		Addr:              addr,
+		Handler:           r,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		WriteTimeout:      15 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	go func() {
+		log.Printf("API ouvindo em http://localhost%s", addr)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("erro ao iniciar servidor: %v", err)
+		}
+	}()
+
+	<-ctx.Done()
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(shutdownCtx); err != nil {
+		log.Printf("shutdown forçado: %v", err)
+	}
+	log.Println("servidor encerrado")
+}
