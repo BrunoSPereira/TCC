@@ -90,7 +90,7 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 func (r *ClienteRepoPG) GetById(ctx context.Context, id string) (*models.Cliente, error) {
 	const q = `
 	select cl.id_cliente, pe.razao_social, pe.nome_fantasia, pe.cpf_cnpj,
-	pe.rg_ie, pe.data_nascimento, pe.cep, pe.logradouro, pe.numero,
+	pe.rg_ie, pe.fg_tipo, pe.data_nascimento, pe.cep, pe.logradouro, pe.numero,
 	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, cl.limite_credito,
 	cl.observacao, cl.fg_ativo
 	from clientes cl inner join pessoas pe on pe.id_pessoa = cl.id_pessoa
@@ -109,7 +109,7 @@ func (r *ClienteRepoPG) List(ctx context.Context, limit, offset int) ([]models.C
 	}
 	const q = `
 	select cl.id_cliente, pe.razao_social, pe.nome_fantasia, pe.cpf_cnpj,
-	pe.rg_ie, pe.data_nascimento, pe.cep, pe.logradouro, pe.numero,
+	pe.rg_ie, pe.fg_tipo, pe.data_nascimento, pe.cep, pe.logradouro, pe.numero,
 	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, cl.limite_credito,
 	cl.observacao, cl.fg_ativo
 	from clientes cl inner join pessoas pe on pe.id_pessoa = cl.id_pessoa
@@ -135,26 +135,40 @@ func (r *ClienteRepoPG) Update(ctx context.Context, in *models.Cliente) error {
 	}()
 
 	var idPessoa int64
-	const qCliente = `update clientes set
-	limite_credito = coalesce($2, limite_credito), 
-	observacao = coalesce($3, observacao), 
-	fg_ativo = coalesce($4, fg_ativo)
-	where id_cliente = $1 returning id_pessoa
+	const qCliente = `
+	UPDATE clientes SET
+
+		limite_credito = COALESCE(NULLIF($2,'')::money, limite_credito),
+		observacao     = COALESCE(NULLIF($3,''), observacao),
+		fg_ativo       = COALESCE(NULLIF($4,''), fg_ativo)
+	WHERE id_cliente = $1
+	RETURNING id_pessoa
 	`
 	if err := tx.QueryRowContext(ctx, qCliente, in.IdCliente, nullIfEmpty(in.LimiteCredito), nullIfEmpty(in.Observacao), nullIfEmpty(in.FgAtivo)).Scan(&idPessoa); err != nil {
 		return err
 	}
 
-	const qPessoa = `update pessoas set
-	cpf_cnpj = coalesce($2, cpf_cnpj), rg_ie = coalesce($3, rg_ie), fg_tipo = coalesce($4, fg_tipo), 
-	razao_social = coalesce($5, razao_social), nome_fantasia = coalesce($6, nome_fantasia), data_nascimento = coalesce($7, data_nascimento),
-    email = coalesce($8, email), telefone = coalesce($9, telefone), cep = coalesce($10, cep), logradouro = coalesce($11, logradouro), 
-	numero = coalesce($12, numero), bairro = coalesce($13, bairro), cidade = coalesce($14, cidade), uf = coalesce($15, uf)
-	where id_pessoa = $1`
+	const qPessoa = `
+	UPDATE pessoas SET
+		cpf_cnpj       = COALESCE(NULLIF($2,''),        cpf_cnpj),
+		rg_ie          = COALESCE(NULLIF($3,''),        rg_ie),
+		fg_tipo        = COALESCE(NULLIF($4, ''),       fg_tipo),
+		razao_social   = COALESCE(NULLIF($5,''),        razao_social),
+		nome_fantasia  = COALESCE(NULLIF($6,''),        nome_fantasia),
+		data_nascimento= COALESCE(NULLIF($7,'')::date,  data_nascimento),
+		email          = COALESCE(NULLIF($8,''),        email),
+		telefone       = COALESCE(NULLIF($9,''),        telefone),
+		cep            = COALESCE(NULLIF($10,''),        cep),
+		logradouro     = COALESCE(NULLIF($11,''),       logradouro),
+		numero         = COALESCE(NULLIF($12,''),       numero),
+		bairro         = COALESCE(NULLIF($13,''),       bairro),
+		cidade         = COALESCE(NULLIF($14,''),       cidade),
+		uf             = COALESCE(NULLIF($15,''),       uf)
+	WHERE id_pessoa = $1
+	`
 
 	if _, err = tx.ExecContext(ctx, qPessoa,
-		idPessoa,
-		in.CpfCnpj, in.RgIe, in.RazaoSocial, in.NomeFantasia, in.DataNascimento,
+		idPessoa, in.CpfCnpj, in.RgIe, in.RazaoSocial, in.FgTipo, in.NomeFantasia, in.DataNascimento,
 		in.Email, in.Telefone, in.Cep, in.Logradouro, in.Numero, in.Bairro, in.Cidade, in.Uf,
 	); err != nil {
 		return err
