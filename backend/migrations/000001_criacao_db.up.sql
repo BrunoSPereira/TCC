@@ -2,7 +2,6 @@ create table usuarios(
 	login varchar(25),
 	senha varchar(512) not null,
 	nome varchar(50) not null,
-	nivel_acesso smallint not null default 1,
 	constraint pk_usuarios primary key (login)
 );
 
@@ -14,19 +13,14 @@ create table pessoas (
 	razao_social varchar(255) not null,
 	nome_fantasia varchar(255),
 	data_nascimento date,
-	genero varchar(1),
 	email varchar(100),
 	telefone varchar(50),
-	celular varchar(50),
 	cep varchar(8),
 	logradouro varchar(255),
 	numero varchar(10) default 'SN',
-	complemento varchar(50),
 	bairro varchar(100),
 	cidade varchar(100),
-	estado varchar(20),
 	uf varchar(2),
-	pais varchar(50),
 	data_cadastro timestamp not null default now(),
 	constraint pk_pessoas primary key (id_pessoa)
 );
@@ -62,47 +56,16 @@ create table tecnicos (
 
 create index idx_tecnicos_01 on tecnicos (id_pessoa);
 
-create table marcas (
-	id_marca serial,
-	nome varchar(100) not null,
-	constraint pk_marcas primary key (id_marca)
-);
-
-
-create table modelos (
-	id_modelo serial,
-	id_marca int not null,
-	nome varchar(100) not null,
-	constraint pk_modelos primary key (id_modelo),
-	constraint fk_modelos_01 foreign key (id_marca)
-	references marcas (id_marca)
-);
-
-create index idx_modelos_01 on modelos (id_marca); 
-create unique index idx_modelos_02 on modelos (id_marca, id_modelo);
-
-create table tipos_produtos (
-	id_tipo serial2,
-	descricao varchar(50) not null,
-	constraint pk_tipos_produtos primary key (id_tipo)
-);
-
 create table produtos (
 	id_produto serial,
-	id_modelo int not null,
-	id_tipo int2 not null,
+	marca varchar(100) not null,
+	modelo varchar(100) not null,
+	tipo varchar(100) not null,
 	descricao varchar(150) not null,
 	categoria varchar(50),
 	observacao varchar(255),
-	constraint pk_produtos primary key (id_produto),
-	constraint fk_produtos_01 foreign key (id_modelo)
-	references modelos (id_modelo),
-	constraint fk_produtos_02 foreign key (id_tipo)
-	references tipos_produtos (id_tipo)
+	constraint pk_produtos primary key (id_produto)
 );
-
-create index idx_produtos_01 on produtos (id_modelo);
-create index idx_produtos_02 on produtos (id_tipo);
 
 
 create table servicos (
@@ -150,7 +113,6 @@ create table controle_os (
 	id_os int not null,
 	id_tecnico int not null,
 	id_servico int not null,
-	id_status int2 not null,
 	data_inicio date default now(),
 	data_fim date,
 	status int2 not null,
@@ -161,12 +123,9 @@ create table controle_os (
 	constraint fk_controle_os_02 foreign key (id_tecnico)
 	references tecnicos (id_tecnico),
 	constraint fk_controle_os_03 foreign key (id_servico)
-	references servicos (id_servico),
-	constraint fk_controle_os_04 foreign key (id_status)
-	references status_os (id_status)
+	references servicos (id_servico)
 );
 
 create index idx_controle_os_01 on controle_os (id_os);
 create index idx_controle_os_02 on controle_os (id_tecnico);
 create index idx_controle_os_03 on controle_os (id_servico);
-create index idx_controle_os_04 on controle_os (id_status);

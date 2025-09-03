@@ -1,73 +1,57 @@
 package services
 
 import (
-	"context"
+	"fmt"
 	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
-	"time"
 
 	"github.com/giogiovana/TCC/config"
-	"github.com/giogiovana/TCC/database"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
-type Service struct {
-	cfg *config.ApiConfig
-	db  *database.DAO
+type Services struct {
+	cfg *config.Config
 }
 
-func New(cfg *config.ApiConfig, dao *database.DAO) *Service {
-	return &Service{cfg: cfg, db: dao}
+func New(cfg *config.Config) *Services {
+	return &Services{cfg: cfg}
 }
 
-func (s *Service) Listen() {
-	r := chi.NewRouter()
-	r.Use(middleware.RequestID, middleware.RealIP, middleware.Logger, middleware.Recoverer)
-
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-		_, _ = w.Write([]byte("Olá Mundo!"))
-	})
-
-	addr := s.cfg.Port
-	if addr == "" {
-		addr = "8080"
+func (s *Services) StartMigrations() {
+	db, err := s.cfg.DBConfig.ConnectDB()
+	if err != nil {
+		return
 	}
-	if addr[0] != ':' {
-		addr = ":" + addr
+	defer db.Close()
+
+	driver, err := postgres.WithInstance(db.DB, &postgres.Config{})
+	if err != nil {
+		log.Println(err)
 	}
 
-	srv := &http.Server{
-		Addr:              addr,
-		Handler:           r,
-		ReadHeaderTimeout: 5 * time.Second,
-		ReadTimeout:       10 * time.Second,
-		WriteTimeout:      15 * time.Second,
-		IdleTimeout:       60 * time.Second,
+	m, err := migrate.NewWithDatabaseInstance(
+		"file:./migrations",
+		"postgres", driver)
+
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	// Contexto que cancela com Ctrl+C (SIGINT) ou SIGTERM (ex.: Docker stop)
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
+	err = m.Up()
+	versaoMigration, fg_dirty, _ := m.Version()
 
-	go func() {
-		// Log amigável: localhost + possíveis IPs da LAN
-		log.Printf("API ouvindo em http://localhost%s", addr)
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("erro ao iniciar servidor: %v", err)
+	if err != nil {
+		if err.Error() != "no change" {
+			log.Fatalf("Erro ao executar os migrations: %v", err)
+		} else if err.Error() == "no change" {
+			fmt.Print("MIGRATIONS STATUS:\tSEM ATUALIZAÇÕES DISPONÍVEIS\n")
+			fmt.Printf("VERSÃO MIGRATIONS:\t%d\n", versaoMigration)
+			fmt.Printf("MIGRATIONS DIRTY:\t%t\n", fg_dirty)
 		}
-	}()
-
-	<-ctx.Done() // aguardando sinal
-
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	if err := srv.Shutdown(shutdownCtx); err != nil {
-		log.Printf("shutdown forçado: %v", err)
+	} else {
+		fmt.Print("MIGRATIONS STATUS:\tATUALIZADO\n")
+		fmt.Printf("VERSÃO MIGRATIONS:\t%d\n", versaoMigration)
+		fmt.Printf("MIGRATIONS DIRTY:\t%t\n", fg_dirty)
 	}
-	log.Println("servidor encerrado")
 }
