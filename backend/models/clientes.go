@@ -27,6 +27,7 @@ type Cliente struct {
 	NomeFantasia   string `db:"nome_fantasia" json:"nome_fantasia"`
 	CpfCnpj        string `db:"cpf_cnpj" json:"cpf_cnpj"`
 	RgIe           string `db:"rg_ie" json:"rg_ie"`
+	FgTipo         string `db:"fg_tipo" json:"fg_tipo"`
 	DataNascimento string `db:"data_nascimento" json:"data_nascimento"`
 	Cep            string `db:"cep" json:"cep"`
 	Logradouro     string `db:"logradouro" json:"logradouro"`
@@ -46,7 +47,8 @@ type ClienteUpdate struct {
 	NomeFantasia   *string `json:"nome_fantasia,omitempty"`
 	CpfCnpj        *string `json:"cpf_cnpj,omitempty"`
 	RgIe           *string `json:"rg_ie,omitempty"`
-	DataNascimento *string `json:"data_nascimento,omitempty"` // "YYYY-MM-DD"
+	FgTipo         *string `json:"fg_tipo,omitempty"`
+	DataNascimento *string `json:"data_nascimento,omitempty"`
 	Cep            *string `json:"cep,omitempty"`
 	Logradouro     *string `json:"logradouro,omitempty"`
 	Numero         *string `json:"numero,omitempty"`
