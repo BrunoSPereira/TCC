@@ -1,19 +1,16 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  /* ocupa a tela toda e ignora o layout do pai (grid/columns) */
-  position: fixed;
-  inset: 0;
 
-  /* centraliza perfeito no eixo X e Y */
+position: fixed;
+  inset: 0;
   display: grid;
   place-items: center;
-  /* se o pai for grid, isso garante que o container cubra tudo */
 
   form {
     background-color: #303030;
-    padding: 1.5rem;
-    gap: 0.5rem;
+    padding: 2rem;
+    gap: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,13 +18,17 @@ export const Container = styled.div`
   }
 
   input {
+    all: unset;
     background-color: #414141;
     padding: 0.5rem;
-    margin: 0.5rem 1rem 1rem 1rem;
     border-radius: 6px;
     font-family: "Inter", sans-serif;
     font-size: 15px;
     color: #dededee0;
+  }
+
+  input:focus {
+    background-color: #515151;
   }
 
   button {
@@ -36,7 +37,7 @@ export const Container = styled.div`
     border-radius: 6px;
     font-family: "Inter", sans-serif;
     font-size: 15px;
-    font-size: medium;
+    font-weight: bold;
     color: #DEDEDE;
     cursor: pointer;
     }
@@ -53,4 +54,13 @@ export const Container = styled.div`
   .logo img {
     width: 80px;
   }
+
+  section{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 10px;
+  }
+
+
 `;

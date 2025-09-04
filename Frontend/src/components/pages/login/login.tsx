@@ -1,24 +1,26 @@
 import * as Style from "./login.Styled";
 import { useState } from "react";
+import { Log } from "./login.Function";
 
 type Props = {
   onLogin: () => void;
 };
 
 export default function Login({ onLogin }: Props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState("");   // 👈 igual ao backend
+  const [senha, setSenha] = useState("");   // 👈 igual ao backend
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // API
-    if (username === "1" && password === "1") {
+    const success = await Log(login, senha);
+    if (success) {
       onLogin();
     } else {
       alert("Usuário ou senha inválidos");
     }
   };
+
 
   return (
     <Style.Container>
@@ -27,21 +29,27 @@ export default function Login({ onLogin }: Props) {
           <img src="src/assets/Logo.png" alt="Logo" />
         </div>
 
+        <section>
         <p>Login</p>
         <input
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
         />
+        </section>
 
+        <section>
         <p>Senha</p>
         <input
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
         />
+        </section>
+
         <button type="submit">Entrar</button>
+        
       </form>
     </Style.Container>
   );
-}
+ }
