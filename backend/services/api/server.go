@@ -16,6 +16,7 @@ import (
 	"github.com/giogiovana/TCC/database"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 )
 
 type Server struct {
@@ -29,6 +30,15 @@ func New(cfg *config.ApiConfig, dao *database.DAO) *Server {
 
 func (s *Server) Listen() {
 	r := chi.NewRouter()
+
+	r.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: false, // precisa ser false para usar "*"
+		MaxAge:           300,
+	}))
+
 	r.Use(middleware.RequestID, middleware.RealIP, middleware.Logger, middleware.Recoverer)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
