@@ -62,5 +62,14 @@ position: fixed;
     gap: 10px;
   }
 
+  .mensagemErro{
+    color: #d82323;
+  }
+
+   .p {
+    font-size: 12px;
+    color: #6b7f9e;
+    font-weight: 500;
+  }
 
 `;

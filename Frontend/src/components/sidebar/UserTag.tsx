@@ -1,7 +1,14 @@
 import * as Style from "./UserTag.Styed";
 import { MdLogout, MdSettings } from "react-icons/md";
 
-export const UserTag = () => {
+type Props = {
+  onLogout: () => void;
+};
+
+export const UserTag = ({onLogout}:Props) => {
+
+  const username = localStorage.getItem("nome");
+
   return (
     <>
       <Style.Container>
@@ -11,12 +18,19 @@ export const UserTag = () => {
           </div>
           <div className="user-info">
             <div className="welcome">Bem-Vindo</div>
-            <div className="role">Adm</div>
+            <div className="role">  {username}  </div>
           </div>
-          <button className="logout">
-            <MdSettings className="settings-icon" />
+            
+            <section>
+            <button className="logout" onClick={onLogout}>
             <MdLogout className="logout-icon" />
-          </button>
+            </button>
+            
+            <button className="config">
+            <MdSettings className="settings-icon" />
+            </button>
+            </section>
+
         </div>
       </Style.Container>
     </>
