@@ -35,7 +35,7 @@ func (s *Server) Listen() {
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"*"},
-		AllowCredentials: false, // precisa ser false para usar "*"
+		AllowCredentials: false,
 		MaxAge:           300,
 	}))
 
