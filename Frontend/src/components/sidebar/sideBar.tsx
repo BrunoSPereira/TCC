@@ -3,11 +3,15 @@ import UserTag from "./UserTag";
 import { NavLink } from "react-router-dom";
 import { MdHome, MdPerson, MdInventory2, MdBuild } from "react-icons/md";
 
-export const SideBar = () => {
+type Props = {
+  onLogout: () => void;
+};
+
+export const SideBar = ({ onLogout }: Props) => {
   return (
     <Style.Container>
       <div className="card-menu">
-        <UserTag />
+        <UserTag onLogout={onLogout} />
         <nav className="Links">
           <ul>
             <li>

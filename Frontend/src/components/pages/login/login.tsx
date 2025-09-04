@@ -7,8 +7,9 @@ type Props = {
 };
 
 export default function Login({ onLogin }: Props) {
-  const [login, setLogin] = useState("");   // 👈 igual ao backend
-  const [senha, setSenha] = useState("");   // 👈 igual ao backend
+  const [login, setLogin] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ export default function Login({ onLogin }: Props) {
     if (success) {
       onLogin();
     } else {
-      alert("Usuário ou senha inválidos");
+      setErro("Usuário ou senha inválidos :(")
     }
   };
 
@@ -47,7 +48,13 @@ export default function Login({ onLogin }: Props) {
         />
         </section>
 
+        {erro && <div className="mensagemErro">{erro}</div>} 
+
+        <section>
         <button type="submit">Entrar</button>
+
+        <p className="p">TCC foda da Gio e do Bruno 0.0.1</p>
+        </section>
         
       </form>
     </Style.Container>
