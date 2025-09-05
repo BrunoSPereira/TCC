@@ -1,15 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-
-position: fixed;
+  position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
 
   form {
     background-color: #303030;
-    padding: 2rem;
+    padding: 2rem 3rem 2rem 3rem;
     gap: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -20,31 +19,32 @@ position: fixed;
   input {
     all: unset;
     background-color: #414141;
-    padding: 0.5rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
     border-radius: 6px;
     font-family: "Inter", sans-serif;
     font-size: 15px;
     color: #dededee0;
+    text-align: center;
   }
 
   input:focus {
     background-color: #515151;
   }
 
-  button {
+  .button1 {
     background-color: #6b7f9e;
-    padding: 1rem 2rem 1rem 2rem ;
+    padding: 1rem 2rem 1rem 2rem;
     border-radius: 6px;
     font-family: "Inter", sans-serif;
     font-size: 15px;
     font-weight: bold;
-    color: #DEDEDE;
+    color: #dedede;
     cursor: pointer;
-    }
-     
-    button:hover {
-      background-color: #86a6d4;
-      color: #ffffff; 
+  }
+
+  .button1:hover {
+    background-color: #86a6d4;
+    color: #ffffff;
   }
 
   .logo {
@@ -55,21 +55,21 @@ position: fixed;
     width: 80px;
   }
 
-  section{
+  section {
     display: flex;
     flex-direction: column;
-    align-items: left;
     gap: 10px;
   }
 
-  .mensagemErro{
+  .mensagemErro {
     color: #d82323;
   }
 
-   .p {
+  .p {
     font-size: 12px;
     color: #6b7f9e;
     font-weight: 500;
   }
+
 
 `;

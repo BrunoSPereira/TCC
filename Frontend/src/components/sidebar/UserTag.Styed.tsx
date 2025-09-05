@@ -7,7 +7,7 @@ export const Container = styled.div`
     padding: 0.7rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     width: 100%;
   }
 
@@ -38,7 +38,7 @@ export const Container = styled.div`
     font-weight: 600;
   }
 
-  .logout {
+  .section {
     margin-left: auto;
     display: flex;
     flex-direction: column;
