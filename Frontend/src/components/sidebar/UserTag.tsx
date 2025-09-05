@@ -1,13 +1,16 @@
+import { useState } from "react";
+import Modal from "../modais/modalLogout";
 import * as Style from "./UserTag.Styed";
 import { MdLogout, MdSettings } from "react-icons/md";
 
-type Props = {
+type UserTagProps = {
   onLogout: () => void;
 };
 
-export const UserTag = ({onLogout}:Props) => {
-
+export const UserTag = ({ onLogout }: UserTagProps) => {
   const username = localStorage.getItem("nome");
+  const [openModal, setOpenModal] = useState(false);
+
 
   return (
     <>
@@ -22,7 +25,7 @@ export const UserTag = ({onLogout}:Props) => {
           </div>
             
             <section>
-            <button className="logout" onClick={onLogout}>
+            <button className="logout" onClick={() => setOpenModal(true)}>
             <MdLogout className="logout-icon" />
             </button>
             
@@ -30,6 +33,12 @@ export const UserTag = ({onLogout}:Props) => {
             <MdSettings className="settings-icon" />
             </button>
             </section>
+
+            <Modal 
+            isOpen={openModal} 
+            setOpenModal={setOpenModal}
+            onLogout={onLogout}
+             />
 
         </div>
       </Style.Container>

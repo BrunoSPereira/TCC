@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
 
-position: fixed;
+  position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
+  
 
   form {
     background-color: #303030;

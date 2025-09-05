@@ -3,11 +3,12 @@ import UserTag from "./UserTag";
 import { NavLink } from "react-router-dom";
 import { MdHome, MdPerson, MdInventory2, MdBuild } from "react-icons/md";
 
-type Props = {
+type SideBarProps = {
   onLogout: () => void;
 };
 
-export const SideBar = ({ onLogout }: Props) => {
+export const SideBar = ({ onLogout }: SideBarProps) => {
+
   return (
     <Style.Container>
       <div className="card-menu">

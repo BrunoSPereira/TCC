@@ -9,12 +9,16 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   
+    // Verifica token ao carregar o app
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) setIsLoggedIn(true);
   }, []);
 
+   // Login
   const handleLogin = () => setIsLoggedIn(true);
+
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
@@ -32,7 +36,7 @@ function App() {
               <MainContent />
             </>
           ) : (
-            <Login onLogin={() => setIsLoggedIn(true)} />
+            <Login onLogin={handleLogin} />
           )}
         </BrowserRouter>
       </main>
