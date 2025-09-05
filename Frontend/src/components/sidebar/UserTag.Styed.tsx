@@ -63,6 +63,4 @@ export const Container = styled.div`
   .logout-icon:hover {
     opacity: 0.5;
   }
-
-
 `;

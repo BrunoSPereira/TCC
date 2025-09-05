@@ -11,7 +11,6 @@ export const UserTag = ({ onLogout }: UserTagProps) => {
   const username = localStorage.getItem("nome");
   const [openModal, setOpenModal] = useState(false);
 
-
   return (
     <>
       <Style.Container>
@@ -21,25 +20,24 @@ export const UserTag = ({ onLogout }: UserTagProps) => {
           </div>
           <div className="user-info">
             <div className="welcome">Bem-Vindo</div>
-            <div className="role">  {username}  </div>
+            <div className="role"> {username} </div>
           </div>
-            
-            <section>
-            <button className="logout" onClick={() => setOpenModal(true)}>
-            <MdLogout className="logout-icon" />
-            </button>
-            
-            <button className="config">
-            <MdSettings className="settings-icon" />
-            </button>
-            </section>
 
-            <Modal 
-            isOpen={openModal} 
+          <section>
+            <button className="logout" onClick={() => setOpenModal(true)}>
+              <MdLogout className="logout-icon" />
+            </button>
+
+            <button className="config">
+              <MdSettings className="settings-icon" />
+            </button>
+          </section>
+
+          <Modal
+            isOpen={openModal}
             setOpenModal={setOpenModal}
             onLogout={onLogout}
-             />
-
+          />
         </div>
       </Style.Container>
     </>

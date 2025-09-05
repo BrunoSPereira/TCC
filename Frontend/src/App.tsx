@@ -6,16 +6,15 @@ import { BrowserRouter } from "react-router-dom";
 import Login from "./components/pages/login/login";
 
 function App() {
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-    // Verifica token ao carregar o app
+
+  // Verifica token ao carregar o app
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) setIsLoggedIn(true);
   }, []);
 
-   // Login
+  // Login
   const handleLogin = () => setIsLoggedIn(true);
 
   // Logout
@@ -24,8 +23,7 @@ function App() {
     setIsLoggedIn(false);
   };
 
-
-   return (
+  return (
     <>
       <GlobalStyle />
       <main>

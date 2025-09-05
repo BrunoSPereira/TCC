@@ -6,24 +6,26 @@ type ModalProps = {
   setOpenModal: (open: boolean) => void;
 };
 
-export default function Modal({isOpen, setOpenModal, onLogout }: ModalProps){
+export default function Modal({ isOpen, setOpenModal, onLogout }: ModalProps) {
+  if (!isOpen) return null;
 
-    if(!isOpen) return null;
-
-    return(
-        <Style.Container>
-        <div className="ModalStyle"> 
-        
-            <p>Tem certeza que deseja sair?</p>
+  return (
+    <Style.Container>
+      <div className="ModalStyle">
+        <p>Tem certeza que deseja sair?</p>
 
         <div className="Buttons">
-            <button className="sim" onClick={onLogout} > Sim </button>
-            
-            <button className="nao" onClick={() => setOpenModal(false)}> Não </button>
-        </div>
-        
-        </div>
+          <button className="sim" onClick={onLogout}>
+            {" "}
+            Sim{" "}
+          </button>
 
-        </Style.Container>
-    );
+          <button className="nao" onClick={() => setOpenModal(false)}>
+            {" "}
+            Não{" "}
+          </button>
+        </div>
+      </div>
+    </Style.Container>
+  );
 }

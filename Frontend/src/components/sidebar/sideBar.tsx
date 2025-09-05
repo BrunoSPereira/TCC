@@ -8,7 +8,6 @@ type SideBarProps = {
 };
 
 export const SideBar = ({ onLogout }: SideBarProps) => {
-
   return (
     <Style.Container>
       <div className="card-menu">
