@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -11,8 +10,6 @@ import (
 	"github.com/giogiovana/TCC/database"
 	"github.com/giogiovana/TCC/models"
 )
-
-var ErrDadosInvalidos = errors.New("dados inválidos")
 
 type ClienteService struct{ repo database.ClienteRepo }
 
@@ -118,14 +115,4 @@ func (s *ClienteService) Update(ctx context.Context, idCliente string, in models
 
 func (s *ClienteService) Delete(ctx context.Context, id string) error {
 	return s.repo.Delete(ctx, id)
-}
-
-func onlyDigits(s string) string {
-	b := make([]byte, 0, len(s))
-	for i := 0; i < len(s); i++ {
-		if s[i] >= '0' && s[i] <= '9' {
-			b = append(b, s[i])
-		}
-	}
-	return string(b)
 }
