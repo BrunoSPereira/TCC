@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -9,6 +10,8 @@ import (
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
+
+var ErrDadosInvalidos = errors.New("dados inválidos")
 
 type Services struct {
 	cfg *config.Config
@@ -54,4 +57,14 @@ func (s *Services) StartMigrations() {
 		fmt.Printf("VERSÃO MIGRATIONS:\t%d\n", versaoMigration)
 		fmt.Printf("MIGRATIONS DIRTY:\t%t\n", fg_dirty)
 	}
+}
+
+func onlyDigits(s string) string {
+	b := make([]byte, 0, len(s))
+	for i := 0; i < len(s); i++ {
+		if s[i] >= '0' && s[i] <= '9' {
+			b = append(b, s[i])
+		}
+	}
+	return string(b)
 }

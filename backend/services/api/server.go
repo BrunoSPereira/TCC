@@ -48,9 +48,11 @@ func (s *Server) Listen() {
 
 	usuarioRepo := database.NewUsuarioRepo(s.db)
 	clienteRepo := database.NewClienteRepo(s.db)
+	tecnicoRepo := database.NewTecnicoRepo(s.db)
 
 	usuarioSvc := services.NewUsuarioService(usuarioRepo)
 	clienteSvc := services.NewClienteService(clienteRepo)
+	tecnicoSvc := services.NewTecnicoService(tecnicoRepo)
 
 	// auth (login/JWT)
 	secret := os.Getenv("JWT_SECRET")
@@ -61,14 +63,16 @@ func (s *Server) Listen() {
 	authCtl := controllers.NewAuthController(usuarioSvc, []byte(secret))
 	authCtl.Register(r)
 
-	// usuários (protegido por Bearer JWT)
+	// (protegidos por Bearer JWT)
 	usuarioCtl := controllers.NewUsuarioController(usuarioSvc)
 	clienteCtl := controllers.NewClienteController(clienteSvc)
+	tecnicoCtl := controllers.NewTecnicoController(tecnicoSvc)
 
 	r.Group(func(pr chi.Router) {
 		pr.Use(controllers.AuthMiddleware([]byte(secret)))
 		usuarioCtl.Register(pr)
 		clienteCtl.Register(pr)
+		tecnicoCtl.Register(pr)
 	})
 
 	addr := s.cfg.Port
