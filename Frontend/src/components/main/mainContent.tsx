@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import TopBar from "../topbar/topBar";
 import * as Style from "./main.Styled";
 import Home from "../pages/Home";
-import CadastroCliente from "../pages/CadastroCliente";
+import CadastroCliente from "../pages/cliente/CadastroCliente";
 import CadastroProduto from "../pages/CadastroProdutos";
 import CadastroOs from "../pages/CadastroOs";
 

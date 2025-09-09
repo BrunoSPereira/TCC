@@ -16,13 +16,11 @@ export default function Modal({ isOpen, setOpenModal, onLogout }: ModalProps) {
 
         <div className="Buttons">
           <button className="sim" onClick={onLogout}>
-            {" "}
-            Sim{" "}
+            Sim
           </button>
 
           <button className="nao" onClick={() => setOpenModal(false)}>
-            {" "}
-            Não{" "}
+            Não
           </button>
         </div>
       </div>

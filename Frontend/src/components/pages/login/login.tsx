@@ -44,7 +44,6 @@ export default function Login({ onLogin }: Props) {
         <section style={{position: "relative"}}>
           <p>Senha</p>
           <input 
-            style={{paddingLeft: 20}}
             type={showPassword ? "text" : "password"}
             value={senha}
             onChange={(e) => setSenha(e.target.value)}

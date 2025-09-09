@@ -34,6 +34,7 @@ export const Container = styled.div`
     font-family: "Inter", sans-serif;
     font-size: 15px;
     color: #ffffff;
+    cursor: pointer;
   }
 
   .nao {
@@ -43,6 +44,7 @@ export const Container = styled.div`
     font-family: "Inter", sans-serif;
     font-size: 15px;
     color: #ffffff;
+    cursor: pointer;
   }
 
   .sim:hover {

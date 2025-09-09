@@ -19,12 +19,15 @@ export const Container = styled.div`
   input {
     all: unset;
     background-color: #414141;
-    padding: 0.5rem 2rem 0.5rem 2rem;
+    padding: 0.5rem;
     border-radius: 6px;
     font-family: "Inter", sans-serif;
     font-size: 15px;
     color: #dededee0;
     text-align: center;
+    min-width: 200px;
+    max-width: 200px;
+
   }
 
   input:focus {
