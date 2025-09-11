@@ -74,15 +74,24 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 	}
 
 	out := models.Cliente{
-		IdCliente:     IdCliente,
-		CpfCnpj:       in.CpfCnpj,
-		RazaoSocial:   in.RazaoSocial,
-		NomeFantasia:  in.NomeFantasia,
-		Email:         in.Email,
-		Telefone:      in.Telefone,
-		LimiteCredito: in.LimiteCredito,
-		Observacao:    in.Observacao,
-		FgAtivo:       in.FgAtivo,
+		IdCliente:      IdCliente,
+		RazaoSocial:    in.RazaoSocial,
+		NomeFantasia:   in.NomeFantasia,
+		CpfCnpj:        in.CpfCnpj,
+		RgIe:           in.RgIe,
+		FgTipo:         in.FgTipo,
+		DataNascimento: in.DataNascimento,
+		Cep:            in.Cep,
+		Logradouro:     in.Logradouro,
+		Numero:         in.Numero,
+		Bairro:         in.Bairro,
+		Cidade:         in.Cidade,
+		Uf:             in.Uf,
+		Telefone:       in.Telefone,
+		Email:          in.Email,
+		LimiteCredito:  in.LimiteCredito,
+		Observacao:     in.Observacao,
+		FgAtivo:        in.FgAtivo,
 	}
 	return out, nil
 }
@@ -137,7 +146,6 @@ func (r *ClienteRepoPG) Update(ctx context.Context, in *models.Cliente) error {
 	var idPessoa int64
 	const qCliente = `
 	UPDATE clientes SET
-
 		limite_credito = COALESCE(NULLIF($2,'')::money, limite_credito),
 		observacao     = COALESCE(NULLIF($3,''), observacao),
 		fg_ativo       = COALESCE(NULLIF($4,''), fg_ativo)
