@@ -41,15 +41,24 @@ export default function Login({ onLogin }: Props) {
           />
         </section>
 
-        <section style={{position: "relative"}}>
+        <section style={{ position: "relative" }}>
           <p>Senha</p>
-          <input 
+          <input
             type={showPassword ? "text" : "password"}
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
 
-          <button style={{position: "absolute", right: 10, top: "55%", color:"#ffff"}} type="button" onClick={() => setShowPassword(!showPassword)}>
+          <button
+            style={{
+              position: "absolute",
+              right: 10,
+              top: "55%",
+              color: "#ffff",
+            }}
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+          >
             {showPassword ? (
               <MdVisibilityOff size={22} />
             ) : (
@@ -61,11 +70,14 @@ export default function Login({ onLogin }: Props) {
         {erro && <div className="mensagemErro">{erro}</div>}
 
         <section>
-          <button className="button1" type="submit">Entrar</button>
+          <button className="button1" type="submit">
+            Entrar
+          </button>
           <p className="p">TCC foda da Gio e do Bruno 0.0.1</p>
         </section>
-
       </form>
+
+      <img src="/src/assets/pexels-jplenio-1105379.jpg" className="foto" />
     </Style.Container>
   );
 }

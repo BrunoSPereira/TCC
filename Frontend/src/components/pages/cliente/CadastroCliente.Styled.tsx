@@ -1,58 +1,61 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  label {
+    display: flex;
+  }
 
-    form{
-        background-color: #303030;
-        padding: 1.5rem;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+  form {
+    background-color: #303030;
+    padding: 1.5rem;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 
-        width: 100%;           
-        max-width: 100%;
-        
-        box-sizing: border-box;
-        overflow: auto;        
-        }
+    width: 100%;
+    max-width: 100%;
 
-    input {
-        all: unset;
-        background-color: #414141;
-        border: 2px solid transparent;
-        box-sizing: border-box;  
-        padding: 0.5rem;
-        border-radius: 6px;
-        font-family: "Inter", sans-serif;
-        font-size: 15px;
-        color: #dededee0; 
-    }
+    box-sizing: border-box;
+    overflow: auto;
+  }
 
-   :focus{
-        border: 2px #dededee0 solid;
-    }
+  input {
+    all: unset;
+    background-color: #414141;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    color: #dededee0;
+  }
 
-    .sessao{
-        border: 2px #dededee0 solid;
-        border-radius: 6px;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 1rem;
-        gap: 2rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
+  :focus {
+    border: 2px #dededee0 solid;
+  }
 
-    .icon{
-        font-size: 20px;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        margin: 0.5rem;
-    }
+  .sessao {
+    border: 2px #dededee0 solid;
+    border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-   .Buttons {
+  .icon {
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 0.5rem;
+  }
+
+  .Buttons {
     display: flex;
     gap: 1.2rem;
   }
@@ -68,7 +71,6 @@ export const Container = styled.div`
     font-weight: 700;
     min-width: 150px;
     cursor: pointer;
-
   }
 
   .Salvar {
@@ -80,7 +82,6 @@ export const Container = styled.div`
     color: #ffffff;
     min-width: 150px;
     cursor: pointer;
-
   }
 
   .Cancelar:hover {
@@ -90,6 +91,8 @@ export const Container = styled.div`
   .Salvar:hover {
     opacity: 0.5;
   }
-  
 
-`
+  .error-message {
+    color: #c20a0a;
+  }
+`;
