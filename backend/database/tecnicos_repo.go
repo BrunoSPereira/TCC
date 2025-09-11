@@ -90,16 +90,25 @@ func (r *TecnicoRepoPG) Create(ctx context.Context, in models.TecnicoCreate) (mo
 	}
 
 	out := models.Tecnico{
-		IdTecnico:     IdTecnico,
-		CpfCnpj:       in.CpfCnpj,
-		RazaoSocial:   in.RazaoSocial,
-		NomeFantasia:  in.NomeFantasia,
-		Email:         in.Email,
-		Telefone:      in.Telefone,
-		Usuario:       in.Usuario,
-		Especialidade: in.Especialidade,
-		DataAdmissao:  in.DataAdmissao,
-		FgAtivo:       in.FgAtivo,
+		IdTecnico:      IdTecnico,
+		RazaoSocial:    in.RazaoSocial,
+		NomeFantasia:   in.NomeFantasia,
+		CpfCnpj:        in.CpfCnpj,
+		RgIe:           in.RgIe,
+		FgTipo:         in.FgTipo,
+		DataNascimento: in.DataNascimento,
+		Cep:            in.Cep,
+		Logradouro:     in.Logradouro,
+		Numero:         in.Numero,
+		Bairro:         in.Bairro,
+		Cidade:         in.Cidade,
+		Uf:             in.Uf,
+		Telefone:       in.Telefone,
+		Email:          in.Email,
+		Usuario:        in.Usuario,
+		Especialidade:  in.Especialidade,
+		DataAdmissao:   in.DataAdmissao,
+		FgAtivo:        in.FgAtivo,
 	}
 	return out, nil
 }
