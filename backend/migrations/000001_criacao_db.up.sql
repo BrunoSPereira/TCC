@@ -6,7 +6,7 @@ create table usuarios(
 );
 
 insert into usuarios (login, senha, nome)
-values ('admin', '$2b$12$UxPtrwJC5eAaeSBR1MJDX.lnFV.oEjDv17R.vPGSauEa4JdkIBjNi', 'administrador');
+values ('admin', '$2a$10$Ytz97Lli9IWDL46RsRA69OyqpFpNcZCG.sFmNypycghGhWXQTcihu', 'Administrador');
 
 create table pessoas (
 	id_pessoa serial,
