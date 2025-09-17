@@ -49,10 +49,12 @@ func (s *Server) Listen() {
 	usuarioRepo := database.NewUsuarioRepo(s.db)
 	clienteRepo := database.NewClienteRepo(s.db)
 	tecnicoRepo := database.NewTecnicoRepo(s.db)
+	produtoRepo := database.NewProdutoRepo(s.db)
 
 	usuarioSvc := services.NewUsuarioService(usuarioRepo)
 	clienteSvc := services.NewClienteService(clienteRepo)
 	tecnicoSvc := services.NewTecnicoService(tecnicoRepo)
+	produtoSvc := services.NewProdutoService(produtoRepo)
 
 	// auth (login/JWT)
 	secret := os.Getenv("JWT_SECRET")
@@ -67,12 +69,14 @@ func (s *Server) Listen() {
 	usuarioCtl := controllers.NewUsuarioController(usuarioSvc)
 	clienteCtl := controllers.NewClienteController(clienteSvc)
 	tecnicoCtl := controllers.NewTecnicoController(tecnicoSvc)
+	produtoCtl := controllers.NewProdutoController(produtoSvc)
 
 	r.Group(func(pr chi.Router) {
 		pr.Use(controllers.AuthMiddleware([]byte(secret)))
 		usuarioCtl.Register(pr)
 		clienteCtl.Register(pr)
 		tecnicoCtl.Register(pr)
+		produtoCtl.Register(pr)
 	})
 
 	addr := s.cfg.Port
