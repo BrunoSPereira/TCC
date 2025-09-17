@@ -56,13 +56,13 @@ func (r *TecnicoRepoPG) Create(ctx context.Context, in models.TecnicoCreate) (mo
 	}
 
 	const qPessoa = `
-        INSERT INTO pessoas
+        insert into pessoas
             (cpf_cnpj, rg_ie, fg_tipo, razao_social, nome_fantasia, data_nascimento,
              email, telefone, cep, logradouro, numero, bairro, cidade, uf)
-        VALUES
+        values
             ($1,$2,$3,$4,$5,$6,
              $7,$8,$9,$10,$11,$12,$13,$14)
-        RETURNING id_pessoa
+        returning id_pessoa
     `
 	var idPessoa int64
 	if err = tx.QueryRowContext(ctx, qPessoa,
@@ -73,9 +73,9 @@ func (r *TecnicoRepoPG) Create(ctx context.Context, in models.TecnicoCreate) (mo
 	}
 
 	const qTecnico = `
-		INSERT INTO tecnicos (id_pessoa, usuario, especialidade, data_admissao, fg_ativo)
-		VALUES ($1, $2, $3, $4, $5)
-		RETURNING id_tecnico 
+		insert into tecnicos (id_pessoa, usuario, especialidade, data_admissao, fg_ativo)
+		values ($1, $2, $3, $4, $5)
+		returning id_tecnico 
 	`
 	var IdTecnico string
 	if err = tx.QueryRowContext(ctx, qTecnico, idPessoa, in.Usuario, in.Especialidade, da, in.FgAtivo).Scan(&IdTecnico); err != nil {
@@ -161,13 +161,13 @@ func (r *TecnicoRepoPG) Update(ctx context.Context, in *models.Tecnico) error {
 
 	var idPessoa int64
 	const qTecnico = `
-	UPDATE tecnicos SET
+	update tecnicos set
 		usuario = coalesce(nullif($2, ''), usuario),
 		especialidade = coalesce(nullif($3, ''), especialidade),
 		data_admissao = coalesce(nullif($4, '')::date, data_admissao),
 		fg_ativo = coalesce(nullif($5, ''), fg_ativo)
-	WHERE id_tecnico = $1
-	RETURNING id_pessoa
+	where id_tecnico = $1
+	returning id_pessoa
 	`
 	if err := tx.QueryRowContext(ctx, qTecnico, in.IdTecnico, nullIfEmpty(in.Usuario), nullIfEmpty(in.Especialidade), nullIfEmpty(in.DataAdmissao), nullIfEmpty(in.FgAtivo)).Scan(&idPessoa); err != nil {
 		if pgerr, ok := err.(*pq.Error); ok && string(pgerr.Code) == "23503" {
@@ -177,22 +177,22 @@ func (r *TecnicoRepoPG) Update(ctx context.Context, in *models.Tecnico) error {
 	}
 
 	const qPessoa = `
-	UPDATE pessoas SET
-		cpf_cnpj       = COALESCE(NULLIF($2,''),        cpf_cnpj),
-		rg_ie          = COALESCE(NULLIF($3,''),        rg_ie),
-		fg_tipo        = COALESCE(NULLIF($4, ''),       fg_tipo),
-		razao_social   = COALESCE(NULLIF($5,''),        razao_social),
-		nome_fantasia  = COALESCE(NULLIF($6,''),        nome_fantasia),
-		data_nascimento= COALESCE(NULLIF($7,'')::date,  data_nascimento),
-		email          = COALESCE(NULLIF($8,''),        email),
-		telefone       = COALESCE(NULLIF($9,''),        telefone),
-		cep            = COALESCE(NULLIF($10,''),        cep),
-		logradouro     = COALESCE(NULLIF($11,''),       logradouro),
-		numero         = COALESCE(NULLIF($12,''),       numero),
-		bairro         = COALESCE(NULLIF($13,''),       bairro),
-		cidade         = COALESCE(NULLIF($14,''),       cidade),
-		uf             = COALESCE(NULLIF($15,''),       uf)
-	WHERE id_pessoa = $1
+	update pessoas set
+		cpf_cnpj = coalesce(nullif($2,''), cpf_cnpj),
+		rg_ie = coalesce(nullif($3,''), rg_ie),
+		fg_tipo = coalesce(nullif($4, ''), fg_tipo),
+		razao_social = coalesce(nullif($5,''), razao_social),
+		nome_fantasia = coalesce(nullif($6,''), nome_fantasia),
+		data_nascimento= coalesce(nullif($7,'')::date, data_nascimento),
+		email = coalesce(nullif($8,''), email),
+		telefone = coalesce(nullif($9,''), telefone),
+		cep = coalesce(nullif($10,''), cep),
+		logradouro = coalesce(nullif($11,''), logradouro),
+		numero = coalesce(nullif($12,''), numero),
+		bairro = coalesce(nullif($13,''), bairro),
+		cidade = coalesce(nullif($14,''), cidade),
+		uf = coalesce(nullif($15,''), uf)
+	where id_pessoa = $1
 	`
 
 	if _, err = tx.ExecContext(ctx, qPessoa,
@@ -218,13 +218,13 @@ func (r *TecnicoRepoPG) Delete(ctx context.Context, id string) (err error) {
 
 	var idPessoa int64
 	if err = tx.QueryRowContext(ctx,
-		`DELETE FROM tecnicos WHERE id_tecnico = $1 RETURNING id_pessoa`, id,
+		`delete from tecnicos where id_tecnico = $1 returning id_pessoa`, id,
 	).Scan(&idPessoa); err != nil {
 		return err
 	}
 
 	if _, err = tx.ExecContext(ctx,
-		`DELETE FROM pessoas WHERE id_pessoa = $1`, idPessoa,
+		`delete from pessoas where id_pessoa = $1`, idPessoa,
 	); err != nil {
 		return err
 	}

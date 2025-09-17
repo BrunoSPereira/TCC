@@ -42,13 +42,13 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 	}
 
 	const qPessoa = `
-        INSERT INTO pessoas
+        insert into pessoas
             (cpf_cnpj, rg_ie, fg_tipo, razao_social, nome_fantasia, data_nascimento,
              email, telefone, cep, logradouro, numero, bairro, cidade, uf)
-        VALUES
+        values
             ($1,$2,$3,$4,$5,$6,
              $7,$8,$9,$10,$11,$12,$13,$14)
-        RETURNING id_pessoa
+        returning id_pessoa
     `
 	var idPessoa int64
 	if err = tx.QueryRowContext(ctx, qPessoa,
@@ -58,9 +58,9 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 		return models.Cliente{}, err
 	}
 	const qCliente = `
-        INSERT INTO clientes (id_pessoa, limite_credito, observacao, fg_ativo)
-        VALUES ($1,$2,$3,$4)
-		RETURNING id_cliente
+        insert into clientes (id_pessoa, limite_credito, observacao, fg_ativo)
+        values ($1,$2,$3,$4)
+		returning id_cliente
     `
 	var IdCliente string
 	if err = tx.QueryRowContext(ctx, qCliente,
@@ -122,7 +122,7 @@ func (r *ClienteRepoPG) List(ctx context.Context, limit, offset int) ([]models.C
 	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, cl.limite_credito,
 	cl.observacao, cl.fg_ativo
 	from clientes cl inner join pessoas pe on pe.id_pessoa = cl.id_pessoa
-	order by cl.id_cliente LIMIT $1 OFFSET $2`
+	order by cl.id_cliente limit $1 offset $2`
 
 	var out []models.Cliente
 	if err := r.db.DB().SelectContext(ctx, &out, q, limit, offset); err != nil {
@@ -145,34 +145,34 @@ func (r *ClienteRepoPG) Update(ctx context.Context, in *models.Cliente) error {
 
 	var idPessoa int64
 	const qCliente = `
-	UPDATE clientes SET
-		limite_credito = COALESCE(NULLIF($2,'')::money, limite_credito),
-		observacao     = COALESCE(NULLIF($3,''), observacao),
-		fg_ativo       = COALESCE(NULLIF($4,''), fg_ativo)
-	WHERE id_cliente = $1
-	RETURNING id_pessoa
+	update clientes set
+		limite_credito = coalesce(nullif($2,'')::money, limite_credito),
+		observacao     = coalesce(nullif($3,''), observacao),
+		fg_ativo       = coalesce(nullif($4,''), fg_ativo)
+	where id_cliente = $1
+	returning id_pessoa
 	`
 	if err := tx.QueryRowContext(ctx, qCliente, in.IdCliente, nullIfEmpty(in.LimiteCredito), nullIfEmpty(in.Observacao), nullIfEmpty(in.FgAtivo)).Scan(&idPessoa); err != nil {
 		return err
 	}
 
 	const qPessoa = `
-	UPDATE pessoas SET
-		cpf_cnpj       = COALESCE(NULLIF($2,''),        cpf_cnpj),
-		rg_ie          = COALESCE(NULLIF($3,''),        rg_ie),
-		fg_tipo        = COALESCE(NULLIF($4, ''),       fg_tipo),
-		razao_social   = COALESCE(NULLIF($5,''),        razao_social),
-		nome_fantasia  = COALESCE(NULLIF($6,''),        nome_fantasia),
-		data_nascimento= COALESCE(NULLIF($7,'')::date,  data_nascimento),
-		email          = COALESCE(NULLIF($8,''),        email),
-		telefone       = COALESCE(NULLIF($9,''),        telefone),
-		cep            = COALESCE(NULLIF($10,''),        cep),
-		logradouro     = COALESCE(NULLIF($11,''),       logradouro),
-		numero         = COALESCE(NULLIF($12,''),       numero),
-		bairro         = COALESCE(NULLIF($13,''),       bairro),
-		cidade         = COALESCE(NULLIF($14,''),       cidade),
-		uf             = COALESCE(NULLIF($15,''),       uf)
-	WHERE id_pessoa = $1
+	update pessoas set
+		cpf_cnpj = coalesce(nullif($2,''), cpf_cnpj),
+		rg_ie = coalesce(nullif($3,''), rg_ie),
+		fg_tipo = coalesce(nullif($4, ''), fg_tipo),
+		razao_social = coalesce(nullif($5,''), razao_social),
+		nome_fantasia = coalesce(nullif($6,''), nome_fantasia),
+		data_nascimento= coalesce(nullif($7,'')::date, data_nascimento),
+		email = coalesce(nullif($8,''), email),
+		telefone = coalesce(nullif($9,''), telefone),
+		cep = coalesce(nullif($10,''), cep),
+		logradouro = coalesce(nullif($11,''), logradouro),
+		numero = coalesce(nullif($12,''), numero),
+		bairro = coalesce(nullif($13,''), bairro),
+		cidade = coalesce(nullif($14,''), cidade),
+		uf = coalesce(nullif($15,''), uf)
+	where id_pessoa = $1
 	`
 
 	if _, err = tx.ExecContext(ctx, qPessoa,
@@ -198,13 +198,13 @@ func (r *ClienteRepoPG) Delete(ctx context.Context, id string) (err error) {
 
 	var idPessoa int64
 	if err = tx.QueryRowContext(ctx,
-		`DELETE FROM clientes WHERE id_cliente = $1 RETURNING id_pessoa`, id,
+		`delete from clientes where id_cliente = $1 returning id_pessoa`, id,
 	).Scan(&idPessoa); err != nil {
 		return err
 	}
 
 	if _, err = tx.ExecContext(ctx,
-		`DELETE FROM pessoas WHERE id_pessoa = $1`, idPessoa,
+		`delete from pessoas where id_pessoa = $1`, idPessoa,
 	); err != nil {
 		return err
 	}
