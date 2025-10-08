@@ -28,7 +28,7 @@ export const SideBar = ({ onLogout }: SideBarProps) => {
 
             <li>
               <NavLink
-                to="/CadastroCliente"
+                to="/ConsultaCliente"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
                 <MdPerson className="icon" /> Clientes

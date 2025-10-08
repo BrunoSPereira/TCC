@@ -78,7 +78,8 @@ export const Container = styled.div`
   }
 
   .foto {
-    width: 100rem;
-    height: auto;
+    width: 100vw; /* largura igual à tela */
+    height: 100vh; /* altura igual à tela */
+    object-fit: cover;
   }
 `;

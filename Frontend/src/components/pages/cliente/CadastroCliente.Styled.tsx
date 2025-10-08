@@ -32,6 +32,10 @@ export const Container = styled.div`
     color: #dededee0;
   }
 
+  .checkbox{
+    
+  }
+
   :focus {
     border: 2px #dededee0 solid;
   }
@@ -83,6 +87,63 @@ export const Container = styled.div`
     min-width: 150px;
     cursor: pointer;
   }
+<div class="checkbox-wrapper-22">
+  <label class="switch" for="checkbox">
+    <input type="checkbox" id="checkbox" />
+    <div class="slider round"></div>
+  </label>
+</div>
+
+<style>
+  .checkbox-wrapper-22 .switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+  }
+
+  .checkbox-wrapper-22 .switch input {
+    display:none;
+  }
+
+  .checkbox-wrapper-22 .slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+  }
+
+  .checkbox-wrapper-22 .slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+  }
+
+  .checkbox-wrapper-22 input:checked + .slider {
+    background-color: #66bb6a;
+  }
+
+  .checkbox-wrapper-22 input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  .checkbox-wrapper-22 .slider.round {
+    border-radius: 34px;
+  }
+
+  .checkbox-wrapper-22 .slider.round:before {
+    border-radius: 50%;
+  }
+</style>
 
   .Cancelar:hover {
     opacity: 0.5;
@@ -94,5 +155,25 @@ export const Container = styled.div`
 
   .error-message {
     color: #c20a0a;
+  }
+
+
+  .checkbox{
+    appearance: none;
+  }
+
+
+/* tabela */
+
+  table {
+    border-collapse: collapse;
+    margin: 1rem;
+  }
+
+  td,
+  th {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #ddd;
   }
 `;

@@ -1,0 +1,20 @@
+export type Cliente = {
+  id_cliente: "string";
+  razao_social: "string";
+  nome_fantasia: "string";
+  cpf_cnpj: "string";
+  rg_ie: "string";
+  fg_tipo: "string";
+  data_nascimento: "string";
+  cep: "string";
+  logradouro: "string";
+  numero: "string";
+  bairro: "string";
+  cidade: "string";
+  uf: "string";
+  telefone: "string";
+  email: "string";
+  limite_credito: "string";
+  observacao: "string";
+  fg_ativo: "string";
+};

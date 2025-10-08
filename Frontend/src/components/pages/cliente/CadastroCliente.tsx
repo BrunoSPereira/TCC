@@ -1,17 +1,32 @@
 import * as Style from "./CadastroCliente.Styled";
 import { MdPerson } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import Modal from "../../modais/modalCancel";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 type FormValues = {
+  id_cliente: string;
   razao_social: string;
-  CPF_CNPJ: string;
-  email: string;
-  telefone: string;
+  nome_fantasia: string;
+  cpf_cnpj: string;
+  rg_ie: string;
+  
+  cep: string;
   logradouro: string;
-  bairro: string;
   numero: string;
+  bairro: string;
   cidade: string;
   uf: string;
+  
+  telefone: string;
+  email: string;
+  
+  limite_credito: string;
+  observacao: string;
+  fg_ativo: boolean;
+  fg_tipo: "F" | "J";
 };
 
 type ErrorMessageProps = {
@@ -24,14 +39,25 @@ export const ErrorMessage = ({ error }: ErrorMessageProps) => {
 };
 
 export const CadastroCliente = () => {
+
+  const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
+
+
   const {
     register,
     handleSubmit,
+    reset,
+    watch,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: { fg_tipo: "F",  id_cliente: "", fg_ativo: true},
+  });
+
+  const tipo = watch("fg_tipo");
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    console.log("dados enviados: ", data);
   };
 
   return (
@@ -41,9 +67,18 @@ export const CadastroCliente = () => {
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
+
+              {/* personal info */}
+
         <div className="sessao">
           <div>
-            <label>Nome</label>
+            <label>ID</label>
+            <input {...register("id_cliente", { disabled: true })} />
+            <ErrorMessage error={errors.razao_social?.message} />
+          </div>
+
+          <div>
+            <label>Razão social</label>
             <input
               {...register("razao_social", {
                 required: "O campo é obrigatório",
@@ -53,19 +88,60 @@ export const CadastroCliente = () => {
           </div>
 
           <div>
-            <label>CPF/CNPJ</label>
+            <label>Fantasia</label>
+            <input {...register("nome_fantasia")} />
+            <ErrorMessage error={errors.razao_social?.message} />
+          </div>
+
+          <div>
+            <label>{tipo === "F" ? "CPF" : "CNPJ"}</label>
             <input
               type="text"
-              {...register("CPF_CNPJ", {
+              {...register("cpf_cnpj", {
                 required: "O campo é obrigatório",
                 pattern: {
                   value: /^[0-9]+$/,
                   message: "Digite apenas números",
-                }
+                },
               })}
             />
           </div>
+
+          <div>
+            <label>{tipo === "F" ? "RG" : "IE"}</label>
+            <input
+              type="text"
+              {...register("rg_ie", {
+                required: "O campo é obrigatório",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Digite apenas números",
+                },
+              })}
+            />
+          </div>
+
+          <div className="radio">
+            <label>
+              <input type="radio" value="F" {...register("fg_tipo")} />
+              PF
+            </label>
+            <label>
+              <input type="radio" value="J" {...register("fg_tipo")} />
+              PJ
+            </label>
+          </div>
+      
+
+        <div>
+          <label className="checkbox">
+          <input type="checkbox" {...register("fg_ativo")} />
+          Ativo? </label>
         </div>
+        </div>
+
+
+      {/* Contato */}
 
         <div className="sessao">
           <div>
@@ -93,6 +169,8 @@ export const CadastroCliente = () => {
           </div>
         </div>
 
+{/* Endereço */}
+
         <div className="sessao">
           <div>
             <label>Rua</label>
@@ -113,16 +191,10 @@ export const CadastroCliente = () => {
           <div>
             <label>Número</label>
             <input
-              type="text"
               {...register("numero", {
-                required: "O campo é obrigatório",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Digite apenas números",
-                },
-              })}
+                  required: "O campo é obrigatório"})}
             />
-            <ErrorMessage error={errors.telefone?.message} />
+            <ErrorMessage error={errors.numero?.message} />
           </div>
 
           <div>
@@ -153,11 +225,23 @@ export const CadastroCliente = () => {
           <button
             type="button"
             className="Cancelar"
-            onClick={() => console.log("Cancelado")}
+            onClick={() => setOpenModal(true)}
           >
             Cancelar
           </button>
+          
         </div>
+
+         <Modal
+            isOpen={openModal}
+            setOpenModal={setOpenModal}
+            onConfirm={() => {
+              reset();
+              setOpenModal(false);
+              navigate("/consultaCliente");
+            }}
+          />
+
       </form>
     </Style.Container>
   );
