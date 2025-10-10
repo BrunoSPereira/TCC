@@ -1,33 +1,13 @@
-import * as Style from "./CadastroCliente.Styled";
+import * as Style from "./Cliente.Styled";
 import { MdPerson } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import Modal from "../../modais/modalCancel";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { cadastrarCliente, consultarClientePorId } from "./Cliente.Function";
+import { Cliente, clienteVazio } from "../../../Models/cliente";
+import { useParams } from "react-router-dom";
 
-
-type FormValues = {
-  id_cliente: string;
-  razao_social: string;
-  nome_fantasia: string;
-  cpf_cnpj: string;
-  rg_ie: string;
-  
-  cep: string;
-  logradouro: string;
-  numero: string;
-  bairro: string;
-  cidade: string;
-  uf: string;
-  
-  telefone: string;
-  email: string;
-  
-  limite_credito: string;
-  observacao: string;
-  fg_ativo: boolean;
-  fg_tipo: "F" | "J";
-};
 
 type ErrorMessageProps = {
   error?: string;
@@ -38,26 +18,58 @@ export const ErrorMessage = ({ error }: ErrorMessageProps) => {
   return <p className="error-message">{error}</p>;
 };
 
-export const CadastroCliente = () => {
 
+export function CadastroCliente() {
+  
+  const { id_cliente } = useParams<{ id_cliente?: string }>();
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
+ const {
+  register,
+  handleSubmit,
+  reset,
+  watch,
+  setValue,
+  formState: { errors },
+} = useForm<Cliente>({
+  defaultValues: clienteVazio,
+});
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: { fg_tipo: "F",  id_cliente: "", fg_ativo: true},
-  });
+const tipo = watch("fg_tipo");
+const fgAtivo = watch("fg_ativo"); 
 
-  const tipo = watch("fg_tipo");
 
-  const onSubmit = (data: FormValues) => {
-    console.log("dados enviados: ", data);
+ useEffect(() => {
+  const carregarCliente = async () => {
+    
+    if (id_cliente) {
+      
+      const data = await consultarClientePorId(id_cliente);
+      
+      console.log(data);
+
+      if (data && typeof data !== "boolean") {
+        reset(data);         
+      }
+    } else {
+      reset(clienteVazio); 
+    }
+  };
+
+  carregarCliente();
+}, 
+[id_cliente, reset]);
+
+  const onSubmit = async (dados: Cliente) => {
+    const sucesso = await cadastrarCliente(dados);
+    if (sucesso) {
+      alert("Cliente salvo com sucesso!");
+      navigate("/consultaCliente");
+
+    } else {
+      alert("Erro ao salvar cliente!");
+    }
   };
 
   return (
@@ -73,8 +85,8 @@ export const CadastroCliente = () => {
         <div className="sessao">
           <div>
             <label>ID</label>
-            <input {...register("id_cliente", { disabled: true })} />
-            <ErrorMessage error={errors.razao_social?.message} />
+            <input readOnly {...register("id_cliente")} />
+            <ErrorMessage error={errors.id_cliente?.message} />
           </div>
 
           <div>
@@ -90,7 +102,7 @@ export const CadastroCliente = () => {
           <div>
             <label>Fantasia</label>
             <input {...register("nome_fantasia")} />
-            <ErrorMessage error={errors.razao_social?.message} />
+            <ErrorMessage error={errors.nome_fantasia?.message} />
           </div>
 
           <div>
@@ -99,12 +111,13 @@ export const CadastroCliente = () => {
               type="text"
               {...register("cpf_cnpj", {
                 required: "O campo é obrigatório",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Digite apenas números",
-                },
+                // pattern: {
+                //   value: /^[0-9]+$/,
+                //   message: "Digite apenas números",
+                // },
               })}
-            />
+            />  
+            <ErrorMessage error={errors.cpf_cnpj?.message} />
           </div>
 
           <div>
@@ -116,9 +129,9 @@ export const CadastroCliente = () => {
                 pattern: {
                   value: /^[0-9]+$/,
                   message: "Digite apenas números",
-                },
+                }
               })}
-            />
+             />
           </div>
 
           <div className="radio">
@@ -133,12 +146,18 @@ export const CadastroCliente = () => {
           </div>
       
 
-        <div>
-          <label className="checkbox">
-          <input type="checkbox" {...register("fg_ativo")} />
-          Ativo? </label>
-        </div>
-        </div>
+<div>
+  <label className="checkbox">
+    <input
+      type="checkbox"
+      {...register("fg_ativo")}
+      onChange={(e) => setValue("fg_ativo", e.target.checked ? "S" : "N")}
+      checked={fgAtivo === "S"}
+    />
+    Ativo?
+  </label>
+</div>
+</div>
 
 
       {/* Contato */}
@@ -159,10 +178,10 @@ export const CadastroCliente = () => {
               type="text"
               {...register("telefone", {
                 required: "O campo é obrigatório",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Digite apenas números",
-                },
+                // pattern: {
+                //   value: /^[0-9]+$/,
+                //   message: "Digite apenas números",
+                // },
               })}
             />
             <ErrorMessage error={errors.telefone?.message} />
@@ -236,7 +255,7 @@ export const CadastroCliente = () => {
             isOpen={openModal}
             setOpenModal={setOpenModal}
             onConfirm={() => {
-              reset();
+              reset(clienteVazio);
               setOpenModal(false);
               navigate("/consultaCliente");
             }}

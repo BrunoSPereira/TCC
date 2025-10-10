@@ -1,4 +1,4 @@
-import * as Style from "./CadastroCliente.Styled";
+import * as Style from "./Cliente.Styled";
 import { consultarCliente } from "./Cliente.Function";
 import { useEffect, useState } from "react";
 import { Cliente } from "../../../Models/cliente";
@@ -16,12 +16,16 @@ export function ConsultaCliente() {
     carregarClientes();
   }, []);
 
+  const handleRowClick = (id_cliente: string) => {
+    if (id_cliente) navigate(`/CadastroCliente/${id_cliente}`);
+  };
+
   return (
     <>
       <Style.Container>
         <button
           type="button"
-          className="Salvar"
+          className="Incluir"
           onClick={() => navigate("/CadastroCliente")}
         >
           Incluir
@@ -41,7 +45,10 @@ export function ConsultaCliente() {
           <tbody>
             {clientes.length > 0 ? (
               clientes.map((cliente) => (
-                <tr key={cliente.id_cliente}>
+                <tr key={cliente.id_cliente}
+                onClick={() => handleRowClick(cliente.id_cliente)}
+                style={{cursor:"pointer"}}
+                >
                   <td>{cliente.id_cliente}</td>
                   <td>{cliente.razao_social}</td>
                   <td>{cliente.telefone}</td>
@@ -51,10 +58,7 @@ export function ConsultaCliente() {
               ))
             ) : (
               <tr>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
+                <td colSpan={5}>Nenhum cliente encontrado</td>
               </tr>
             )}
           </tbody>
