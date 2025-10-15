@@ -148,14 +148,13 @@ const fgAtivo = watch("fg_ativo");
 
 <div>
   <label className="checkbox">
-    <input
-      type="checkbox"
-      {...register("fg_ativo")}
-      onChange={(e) => setValue("fg_ativo", e.target.checked ? "S" : "N")}
-      checked={fgAtivo === "S"}
-    />
-    Ativo?
-  </label>
+  <input
+    type="checkbox"
+    onChange={(e) => setValue("fg_ativo", e.target.checked ? "S" : "N")}
+    checked={fgAtivo === "S"}
+  />
+  Ativo?
+</label>
 </div>
 </div>
 

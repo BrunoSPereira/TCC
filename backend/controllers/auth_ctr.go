@@ -65,7 +65,7 @@ func (a *AuthController) login(w http.ResponseWriter, r *http.Request) {
 	respond(w, 200, map[string]any{
 		"access_token": s,
 		"token_type":   "Bearer",
-		"expires_in":   3600,
+		"expires_in":   306000,
 		"user":         u,
 	})
 }
