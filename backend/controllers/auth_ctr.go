@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -34,6 +35,7 @@ func (a *AuthController) login(w http.ResponseWriter, r *http.Request) {
 	var in loginReq
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil || in.Login == "" || in.Senha == "" {
 		respondErr(w, 400, "json inválido")
+		fmt.Println("json inválido")
 		return
 	}
 	u, err := a.svc.Authenticate(r.Context(), in.Login, in.Senha)
@@ -43,6 +45,7 @@ func (a *AuthController) login(w http.ResponseWriter, r *http.Request) {
 			status = 500
 		}
 		respondErr(w, status, "login ou senha inválidos")
+		fmt.Println("login ou senha inválidos")
 		return
 	}
 
@@ -55,6 +58,7 @@ func (a *AuthController) login(w http.ResponseWriter, r *http.Request) {
 	s, err := token.SignedString(a.jwtSecret)
 	if err != nil {
 		respondErr(w, 500, "erro ao gerar token")
+		fmt.Println("erro ao gerar token")
 		return
 	}
 

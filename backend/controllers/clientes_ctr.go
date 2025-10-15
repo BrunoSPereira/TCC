@@ -3,6 +3,7 @@ package controllers
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -32,6 +33,7 @@ func (c *ClienteController) create(w http.ResponseWriter, r *http.Request) {
 	var in models.ClienteCreate
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		respondErr(w, http.StatusBadRequest, "json inválido")
+		fmt.Println("json inválido")
 		return
 	}
 	out, err := c.svc.Create(r.Context(), in)
@@ -40,16 +42,20 @@ func (c *ClienteController) create(w http.ResponseWriter, r *http.Request) {
 		case *pq.Error:
 			if string(e.Code) == "23505" { // unique_violation
 				respondErr(w, http.StatusConflict, "cpf_cnpj já cadastrado")
+				fmt.Println("cpf_cnpj já cadastrado")
 				return
 			}
 			respondErr(w, http.StatusInternalServerError, "erro de banco")
+			fmt.Println("erro de banco: " + e.Error())
 			return
 		default:
 			if err == services.ErrDadosInvalidos || err == sql.ErrNoRows {
 				respondErr(w, http.StatusBadRequest, err.Error())
+				fmt.Println(e.Error())
 				return
 			}
 			respondErr(w, http.StatusInternalServerError, err.Error())
+			fmt.Println(e.Error())
 			return
 		}
 	}
@@ -62,6 +68,7 @@ func (c *ClienteController) get(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err == sql.ErrNoRows {
 			respondErr(w, 404, "não encontrado")
+			fmt.Println("cliente não encontrado")
 			return
 		}
 		respondErr(w, 500, err.Error())
@@ -86,6 +93,7 @@ func (c *ClienteController) update(w http.ResponseWriter, r *http.Request) {
 	var in models.ClienteUpdate
 	if err := json.NewDecoder(r.Body).Decode((&in)); err != nil {
 		respondErr(w, 400, "json inválido")
+		fmt.Println("json inválido")
 		return
 	}
 
@@ -93,9 +101,11 @@ func (c *ClienteController) update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err == sql.ErrNoRows {
 			respondErr(w, 404, "não encontrado")
+			fmt.Println("cliente não encontrado")
 			return
 		}
 		respondErr(w, 500, err.Error())
+		fmt.Println(err.Error())
 		return
 	}
 }
@@ -105,9 +115,11 @@ func (c *ClienteController) delete(w http.ResponseWriter, r *http.Request) {
 	if err := c.svc.Delete(r.Context(), id); err != nil {
 		if err == sql.ErrNoRows {
 			respondErr(w, 404, "não encontrado")
+			fmt.Println("não encontrado")
 			return
 		}
 		respondErr(w, 500, err.Error())
+		fmt.Println(err.Error())
 		return
 	}
 	w.WriteHeader(204)
