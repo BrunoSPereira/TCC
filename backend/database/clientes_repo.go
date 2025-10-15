@@ -163,7 +163,7 @@ func (r *ClienteRepoPG) Update(ctx context.Context, in *models.Cliente) error {
 	`
 
 	if _, err = tx.ExecContext(ctx, qPessoa,
-		idPessoa, in.CpfCnpj, in.RgIe, in.RazaoSocial, in.FgTipo, in.NomeFantasia,
+		idPessoa, in.CpfCnpj, in.RgIe, in.FgTipo, in.RazaoSocial, in.NomeFantasia,
 		in.Email, in.Telefone, in.Cep, in.Logradouro, in.Numero, in.Bairro, in.Cidade, in.Uf,
 	); err != nil {
 		return err
