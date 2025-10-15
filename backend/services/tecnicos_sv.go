@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/giogiovana/TCC/database"
 	"github.com/giogiovana/TCC/models"
@@ -60,14 +59,6 @@ func (s *TecnicoService) Update(ctx context.Context, idTecnico string, in models
 	if in.RgIe != nil {
 		t.RgIe = strings.TrimSpace(*in.RgIe)
 	}
-	if in.DataNascimento != nil {
-		if *in.DataNascimento != "" {
-			if _, err := time.Parse("2006-01-02", *in.DataNascimento); err != nil {
-				return models.Tecnico{}, fmt.Errorf("data_nascimento inválida (use YYYY-MM-DD)")
-			}
-		}
-		t.DataNascimento = *in.DataNascimento
-	}
 	if in.Cep != nil {
 		t.Cep = onlyDigits(*in.Cep)
 	}
@@ -103,15 +94,6 @@ func (s *TecnicoService) Update(ctx context.Context, idTecnico string, in models
 
 	if in.Especialidade != nil {
 		t.Especialidade = strings.TrimSpace(*in.Especialidade)
-	}
-
-	if in.DataAdmissao != nil {
-		if *in.DataAdmissao != "" {
-			if _, err := time.Parse("2006-01-02", *in.DataAdmissao); err != nil {
-				return models.Tecnico{}, fmt.Errorf("data_admissao inválida (use YYYY-MM-DD)")
-			}
-		}
-		t.DataAdmissao = *in.DataAdmissao
 	}
 
 	if in.FgAtivo != nil {
