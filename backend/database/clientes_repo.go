@@ -3,7 +3,6 @@ package database
 import (
 	"context"
 	"database/sql"
-	"time"
 
 	"github.com/giogiovana/TCC/models"
 )
@@ -31,28 +30,18 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 		}
 	}()
 
-	var dn *time.Time
-	if in.DataNascimento != "" {
-		t, e := time.Parse("2006-01-02", in.DataNascimento)
-		if e != nil {
-			err = e
-			return models.Cliente{}, err
-		}
-		dn = &t
-	}
-
 	const qPessoa = `
         insert into pessoas
-            (cpf_cnpj, rg_ie, fg_tipo, razao_social, nome_fantasia, data_nascimento,
+            (cpf_cnpj, rg_ie, fg_tipo, razao_social, nome_fantasia,
              email, telefone, cep, logradouro, numero, bairro, cidade, uf)
         values
             ($1,$2,$3,$4,$5,$6,
-             $7,$8,$9,$10,$11,$12,$13,$14)
+             $7,$8,$9,$10,$11,$12,$13)
         returning id_pessoa
     `
 	var idPessoa int64
 	if err = tx.QueryRowContext(ctx, qPessoa,
-		in.CpfCnpj, in.RgIe, in.FgTipo, in.RazaoSocial, in.NomeFantasia, dn,
+		in.CpfCnpj, in.RgIe, in.FgTipo, in.RazaoSocial, in.NomeFantasia,
 		in.Email, in.Telefone, in.Cep, in.Logradouro, in.Numero, in.Bairro, in.Cidade, in.Uf,
 	).Scan(&idPessoa); err != nil {
 		return models.Cliente{}, err
@@ -74,24 +63,23 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 	}
 
 	out := models.Cliente{
-		IdCliente:      IdCliente,
-		RazaoSocial:    in.RazaoSocial,
-		NomeFantasia:   in.NomeFantasia,
-		CpfCnpj:        in.CpfCnpj,
-		RgIe:           in.RgIe,
-		FgTipo:         in.FgTipo,
-		DataNascimento: in.DataNascimento,
-		Cep:            in.Cep,
-		Logradouro:     in.Logradouro,
-		Numero:         in.Numero,
-		Bairro:         in.Bairro,
-		Cidade:         in.Cidade,
-		Uf:             in.Uf,
-		Telefone:       in.Telefone,
-		Email:          in.Email,
-		LimiteCredito:  in.LimiteCredito,
-		Observacao:     in.Observacao,
-		FgAtivo:        in.FgAtivo,
+		IdCliente:     IdCliente,
+		RazaoSocial:   in.RazaoSocial,
+		NomeFantasia:  in.NomeFantasia,
+		CpfCnpj:       in.CpfCnpj,
+		RgIe:          in.RgIe,
+		FgTipo:        in.FgTipo,
+		Cep:           in.Cep,
+		Logradouro:    in.Logradouro,
+		Numero:        in.Numero,
+		Bairro:        in.Bairro,
+		Cidade:        in.Cidade,
+		Uf:            in.Uf,
+		Telefone:      in.Telefone,
+		Email:         in.Email,
+		LimiteCredito: in.LimiteCredito,
+		Observacao:    in.Observacao,
+		FgAtivo:       in.FgAtivo,
 	}
 	return out, nil
 }
@@ -99,7 +87,7 @@ func (r *ClienteRepoPG) Create(ctx context.Context, in models.ClienteCreate) (mo
 func (r *ClienteRepoPG) GetById(ctx context.Context, id string) (*models.Cliente, error) {
 	const q = `
 	select cl.id_cliente, pe.razao_social, pe.nome_fantasia, pe.cpf_cnpj,
-	pe.rg_ie, pe.fg_tipo, pe.data_nascimento, pe.cep, pe.logradouro, pe.numero,
+	pe.rg_ie, pe.fg_tipo, pe.cep, pe.logradouro, pe.numero,
 	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, cl.limite_credito,
 	cl.observacao, cl.fg_ativo
 	from clientes cl inner join pessoas pe on pe.id_pessoa = cl.id_pessoa
@@ -118,7 +106,7 @@ func (r *ClienteRepoPG) List(ctx context.Context, limit, offset int) ([]models.C
 	}
 	const q = `
 	select cl.id_cliente, pe.razao_social, pe.nome_fantasia, pe.cpf_cnpj,
-	pe.rg_ie, pe.fg_tipo, pe.data_nascimento, pe.cep, pe.logradouro, pe.numero,
+	pe.rg_ie, pe.fg_tipo, pe.cep, pe.logradouro, pe.numero,
 	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, cl.limite_credito,
 	cl.observacao, cl.fg_ativo
 	from clientes cl inner join pessoas pe on pe.id_pessoa = cl.id_pessoa
@@ -163,20 +151,19 @@ func (r *ClienteRepoPG) Update(ctx context.Context, in *models.Cliente) error {
 		fg_tipo = coalesce(nullif($4, ''), fg_tipo),
 		razao_social = coalesce(nullif($5,''), razao_social),
 		nome_fantasia = coalesce(nullif($6,''), nome_fantasia),
-		data_nascimento= coalesce(nullif($7,'')::date, data_nascimento),
-		email = coalesce(nullif($8,''), email),
-		telefone = coalesce(nullif($9,''), telefone),
-		cep = coalesce(nullif($10,''), cep),
-		logradouro = coalesce(nullif($11,''), logradouro),
-		numero = coalesce(nullif($12,''), numero),
-		bairro = coalesce(nullif($13,''), bairro),
-		cidade = coalesce(nullif($14,''), cidade),
-		uf = coalesce(nullif($15,''), uf)
+		email = coalesce(nullif($7,''), email),
+		telefone = coalesce(nullif($8,''), telefone),
+		cep = coalesce(nullif($9,''), cep),
+		logradouro = coalesce(nullif($10,''), logradouro),
+		numero = coalesce(nullif($11,''), numero),
+		bairro = coalesce(nullif($12,''), bairro),
+		cidade = coalesce(nullif($13,''), cidade),
+		uf = coalesce(nullif($14,''), uf)
 	where id_pessoa = $1
 	`
 
 	if _, err = tx.ExecContext(ctx, qPessoa,
-		idPessoa, in.CpfCnpj, in.RgIe, in.RazaoSocial, in.FgTipo, in.NomeFantasia, in.DataNascimento,
+		idPessoa, in.CpfCnpj, in.RgIe, in.RazaoSocial, in.FgTipo, in.NomeFantasia,
 		in.Email, in.Telefone, in.Cep, in.Logradouro, in.Numero, in.Bairro, in.Cidade, in.Uf,
 	); err != nil {
 		return err

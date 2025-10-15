@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"strings"
 
@@ -59,14 +58,6 @@ func (s *ClienteService) Update(ctx context.Context, idCliente string, in models
 	}
 	if in.RgIe != nil {
 		c.RgIe = strings.TrimSpace(*in.RgIe)
-	}
-	if in.DataNascimento != nil {
-		if *in.DataNascimento != "" {
-			if _, err := time.Parse("2006-01-02", *in.DataNascimento); err != nil {
-				return models.Cliente{}, fmt.Errorf("data_nascimento inválida (use YYYY-MM-DD)")
-			}
-		}
-		c.DataNascimento = *in.DataNascimento
 	}
 	if in.Cep != nil {
 		c.Cep = onlyDigits(*in.Cep)

@@ -12,7 +12,6 @@ create table pessoas (
 	fg_tipo varchar(1) default 'F',
 	razao_social varchar(255) not null,
 	nome_fantasia varchar(255),
-	data_nascimento date,
 	email varchar(100),
 	telefone varchar(50),
 	cep varchar(8),
@@ -45,7 +44,6 @@ create table tecnicos (
 	id_pessoa int not null,
 	usuario varchar(25) not null,
 	especialidade varchar(100),
-	data_admissao date,
 	fg_ativo varchar(1) default 'N',
 	constraint pk_tecnicos primary key (id_tecnico),
 	constraint fk_tecnicos_01 foreign key (id_pessoa)
