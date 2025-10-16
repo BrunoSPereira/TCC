@@ -35,7 +35,8 @@ export function ConsultaCliente() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Nome</th>
+              <th>Razão social</th>
+              <th>Fantasia</th>
               <th>Telefone</th>
               <th>Email</th>
               <th>Ativo</th>
@@ -51,6 +52,7 @@ export function ConsultaCliente() {
                 >
                   <td>{cliente.id_cliente}</td>
                   <td>{cliente.razao_social}</td>
+                  <td>{cliente.nome_fantasia}</td>
                   <td>{cliente.telefone}</td>
                   <td>{cliente.email}</td>
                   <td>{cliente.fg_ativo}</td>
@@ -58,7 +60,7 @@ export function ConsultaCliente() {
               ))
             ) : (
               <tr>
-                <td colSpan={5}>Nenhum cliente encontrado</td>
+                <td colSpan={6}>Nenhum cliente encontrado</td>
               </tr>
             )}
           </tbody>

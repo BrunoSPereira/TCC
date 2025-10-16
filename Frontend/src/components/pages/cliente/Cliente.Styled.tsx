@@ -20,7 +20,7 @@ export const Container = styled.div`
     overflow: auto;
   }
 
-  input {
+  .input {
     all: unset;
     background-color: #414141;
     border: 2px solid transparent;
@@ -31,10 +31,22 @@ export const Container = styled.div`
     font-size: 15px;
     color: #dededee0;
   }
-
-
-  :focus {
+  
+  .input:focus {
     border: 2px #dededee0 solid;
+  }
+
+  .idInput{
+    all: unset;
+    background-color: #414141;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    color: #747474df;
+    width: 3rem;
   }
 
   .sessao {
@@ -97,14 +109,75 @@ export const Container = styled.div`
     color: #c20a0a;
   }
 
+//Checkbox
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+}
 
-  .checkbox{
-    appearance: none;
-  }
+.checkbox-custom {
+  all: unset;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  background-color: #414141;
+  cursor: pointer;
+  display: inline-block;
+  position: relative; 
+}
 
+.checkbox-custom:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 6px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+
+//Radio
+.radio-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* espaço entre checkbox e label */
+}
+
+
+.radio-custom {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #333;
+  border-radius: 50%; /* círculo */
+  background-color: #414141;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  
+}
+
+.radio-wrapper label{
+  gap: 0.5rem;
+}
+
+.radio-custom:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #6b7f9e;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
 
 /* tabela */
-
   table {
     border-collapse: collapse;
     margin: 1rem;
@@ -118,6 +191,6 @@ export const Container = styled.div`
   }
 
   tr:hover {
-  background-color: #bc3838;
+  background-color: #9b9898;
 }
-`;
+`

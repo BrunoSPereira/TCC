@@ -8,7 +8,6 @@ import { cadastrarCliente, consultarClientePorId } from "./Cliente.Function";
 import { Cliente, clienteVazio } from "../../../Models/cliente";
 import { useParams } from "react-router-dom";
 
-
 type ErrorMessageProps = {
   error?: string;
 };
@@ -37,7 +36,7 @@ export function CadastroCliente() {
 });
 
 const tipo = watch("fg_tipo");
-const fgAtivo = watch("fg_ativo"); 
+const fg_ativo = watch("fg_ativo"); 
 
 
  useEffect(() => {
@@ -85,13 +84,14 @@ const fgAtivo = watch("fg_ativo");
         <div className="sessao">
           <div>
             <label>ID</label>
-            <input readOnly {...register("id_cliente")} />
+            <input className="idInput"
+             readOnly {...register("id_cliente")} />
             <ErrorMessage error={errors.id_cliente?.message} />
           </div>
 
-          <div>
+          <div >
             <label>Razão social</label>
-            <input
+            <input className="input"
               {...register("razao_social", {
                 required: "O campo é obrigatório",
               })}
@@ -101,20 +101,21 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>Fantasia</label>
-            <input {...register("nome_fantasia")} />
+            <input className="input"
+            {...register("nome_fantasia")} />
             <ErrorMessage error={errors.nome_fantasia?.message} />
           </div>
 
           <div>
             <label>{tipo === "F" ? "CPF" : "CNPJ"}</label>
-            <input
+            <input className="input"
               type="text"
               {...register("cpf_cnpj", {
                 required: "O campo é obrigatório",
-                // pattern: {
-                //   value: /^[0-9]+$/,
-                //   message: "Digite apenas números",
-                // },
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Digite apenas números",
+                },
               })}
             />  
             <ErrorMessage error={errors.cpf_cnpj?.message} />
@@ -122,39 +123,52 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>{tipo === "F" ? "RG" : "IE"}</label>
-            <input
-              type="text"
+            <input className="input"
+              type="text" 
               {...register("rg_ie", {
                 required: "O campo é obrigatório",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Digite apenas números",
-                }
               })}
+             />
+             <ErrorMessage error={errors.rg_ie?.message} />
+          </div>
+
+            <div>
+            <label>Limite de crédito</label>
+            <input className="input" 
+              type="text"
+              {...register("limite_credito")}
              />
           </div>
 
-          <div className="radio">
+           <div>
+            <label>Observação</label>
+            <input className="input"
+              type="text"
+              {...register("observacao")}
+             />
+          </div>
+
+          <div className="radio-wrapper">
             <label>
-              <input type="radio" value="F" {...register("fg_tipo")} />
+              <input className="radio-custom" type="radio" value="F" {...register("fg_tipo")} />
               PF
             </label>
             <label>
-              <input type="radio" value="J" {...register("fg_tipo")} />
+              <input className="radio-custom" type="radio" value="J" {...register("fg_tipo")} />
               PJ
             </label>
           </div>
       
 
-<div>
-  <label className="checkbox">
+<div className="checkbox-wrapper">
   <input
     type="checkbox"
+    id="fg_ativo"
+    className="checkbox-custom"
+    checked={fg_ativo === "S"}
     onChange={(e) => setValue("fg_ativo", e.target.checked ? "S" : "N")}
-    checked={fgAtivo === "S"}
   />
-  Ativo?
-</label>
+  <label htmlFor="fg_ativo">Ativo?</label>
 </div>
 </div>
 
@@ -164,7 +178,7 @@ const fgAtivo = watch("fg_ativo");
         <div className="sessao">
           <div>
             <label>Email</label>
-            <input
+            <input className="input"
               type="email"
               {...register("email", { required: "O campo é obrigatório" })}
             />
@@ -173,14 +187,14 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>Telefone</label>
-            <input
+            <input className="input"
               type="text"
               {...register("telefone", {
                 required: "O campo é obrigatório",
                 // pattern: {
                 //   value: /^[0-9]+$/,
                 //   message: "Digite apenas números",
-                // },
+                // }
               })}
             />
             <ErrorMessage error={errors.telefone?.message} />
@@ -190,9 +204,26 @@ const fgAtivo = watch("fg_ativo");
 {/* Endereço */}
 
         <div className="sessao">
+
+          <div>
+            <label>CEP</label>
+            <input className="input"
+              type="text"
+              {...register("cep", {
+                required: "O campo é obrigatório",
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: "Digite apenas números",
+                },
+              })}
+            />
+            <ErrorMessage error={errors.cep?.message} />
+          </div>
+
+
           <div>
             <label>Rua</label>
-            <input
+            <input className="input"
               {...register("logradouro", { required: "O campo é obrigatório" })}
             />
             <ErrorMessage error={errors.logradouro?.message} />
@@ -200,7 +231,7 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>Bairro</label>
-            <input
+            <input className="input"
               {...register("bairro", { required: "O campo é obrigatório" })}
             />
             <ErrorMessage error={errors.bairro?.message} />
@@ -208,7 +239,7 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>Número</label>
-            <input
+            <input className="input"
               {...register("numero", {
                   required: "O campo é obrigatório"})}
             />
@@ -217,7 +248,7 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>Cidade</label>
-            <input
+            <input className="input"
               {...register("cidade", { required: "O campo é obrigatório" })}
             />
             <ErrorMessage error={errors.cidade?.message} />
@@ -225,10 +256,10 @@ const fgAtivo = watch("fg_ativo");
 
           <div>
             <label>UF</label>
-            <input
+            <input className="input"
               {...register("uf", {
                 required: "O campo é obrigatório",
-                minLength: { value: 2, message: "O UF deve ter duas letras" },
+                maxLength: { value: 2, message: "O UF deve ter duas letras" },
               })}
             />
             <ErrorMessage error={errors.uf?.message} />
@@ -246,6 +277,15 @@ const fgAtivo = watch("fg_ativo");
             onClick={() => setOpenModal(true)}
           >
             Cancelar
+          </button>
+
+          
+          <button
+            type="button"
+            className="Excluir"
+            // onClick={}
+          >
+            Excluir
           </button>
           
         </div>
