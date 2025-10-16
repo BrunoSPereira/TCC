@@ -15,6 +15,7 @@ export async function cadastrarCliente(cliente: Cliente): Promise<boolean> {
     
     } catch (error) {
       console.error("Erro no cadastro de clientes:", error);
+      console.log()
       return false;
     }
 }
