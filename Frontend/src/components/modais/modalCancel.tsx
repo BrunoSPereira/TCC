@@ -1,12 +1,12 @@
 import * as Style from "./modal.Styled";
 
 type ModalProps = {
-  onConfirm:() => void;
+  onConfirm: () => void;
   isOpen: boolean;
   setOpenModal: (open: boolean) => void;
 };
 
-export default function Modal({ isOpen, setOpenModal, onConfirm}: ModalProps) {
+export default function Modal({ isOpen, setOpenModal, onConfirm }: ModalProps) {
   if (!isOpen) return null;
 
   return (

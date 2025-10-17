@@ -14,7 +14,10 @@ export const MainContent = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/ConsultaCliente" element={<ConsultaCliente />} />
-            <Route path="/CadastroCliente/:id_cliente?" element={<CadastroCliente />} />
+            <Route
+              path="/CadastroCliente/:id_cliente?"
+              element={<CadastroCliente />}
+            />
             <Route path="/CadastroProduto" element={<CadastroProduto />} />
             <Route path="/CadastroOs" element={<CadastroOs />} />
           </Routes>

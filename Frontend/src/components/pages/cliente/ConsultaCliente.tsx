@@ -46,9 +46,10 @@ export function ConsultaCliente() {
           <tbody>
             {clientes.length > 0 ? (
               clientes.map((cliente) => (
-                <tr key={cliente.id_cliente}
-                onClick={() => handleRowClick(cliente.id_cliente)}
-                style={{cursor:"pointer"}}
+                <tr
+                  key={cliente.id_cliente}
+                  onClick={() => handleRowClick(cliente.id_cliente)}
+                  style={{ cursor: "pointer" }}
                 >
                   <td>{cliente.id_cliente}</td>
                   <td>{cliente.razao_social}</td>

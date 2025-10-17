@@ -36,6 +36,7 @@ export const Container = styled.div`
       margin-top: 1.2rem;
       margin-bottom: 0.5rem;
       font-weight: 500;
+      
     }
 
     li {
@@ -51,12 +52,13 @@ export const Container = styled.div`
       cursor: pointer;
     }
 
-    a:active {
-      color: #6b7f9e;
-    }
-
     a:hover {
       color: #6b7f9e;
+    }
+  
+    a.active {
+      color: #6b7f9e;
+      font-weight: 600;
     }
 
     .icon {

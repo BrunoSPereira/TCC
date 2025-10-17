@@ -31,12 +31,12 @@ export const Container = styled.div`
     font-size: 15px;
     color: #dededee0;
   }
-  
+
   .input:focus {
     border: 2px #dededee0 solid;
   }
 
-  .idInput{
+  .idInput {
     all: unset;
     background-color: #414141;
     border: 2px solid transparent;
@@ -68,40 +68,44 @@ export const Container = styled.div`
     margin: 0.5rem;
   }
 
+
+//Buttons
+
   .Buttons {
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
     gap: 1.2rem;
   }
 
-  .Cancelar {
+  button{
     padding: 1rem;
     border-radius: 6px;
-    font-family: "Inter", sans-serif;
     font-size: 15px;
-    border: 3px #6b7f9e solid;
-    border-radius: 6px;
-    color: #6b7f9e;
-    font-weight: 700;
+    font-family: "Inter", sans-serif;    cursor: pointer;
     min-width: 150px;
-    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .Cancelar {
+    border: 3px #6b7f9e solid;
+    color: #6b7f9e;
   }
 
   .Salvar {
     background-color: #6b7f9e;
-    padding: 1rem;
-    border-radius: 6px;
-    font-family: "Inter", sans-serif;
-    font-size: 15px;
     color: #ffffff;
-    min-width: 150px;
-    cursor: pointer;
   }
 
-  .Cancelar:hover {
-    opacity: 0.5;
+  .Excluir{
+    border: 3px #c72e2e solid;
+    color: #c72e2e;
+    margin-left: auto;
+
   }
 
-  .Salvar:hover {
+  button:hover {
     opacity: 0.5;
   }
 
@@ -109,75 +113,73 @@ export const Container = styled.div`
     color: #c20a0a;
   }
 
-//Checkbox
-.checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; 
-}
+  //Checkbox
+  .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
-.checkbox-custom {
-  all: unset;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #333;
-  border-radius: 4px;
-  background-color: #414141;
-  cursor: pointer;
-  display: inline-block;
-  position: relative; 
-}
+  .checkbox-custom {
+    all: unset;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    background-color: #414141;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+  }
 
-.checkbox-custom:checked::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 4px;
-  width: 6px;
-  height: 10px;
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
+  .checkbox-custom:checked::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    width: 6px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
 
+  //Radio
+  .radio-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* espaço entre checkbox e label */
+  }
 
-//Radio
-.radio-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* espaço entre checkbox e label */
-}
+  .radio-custom {
+    all:unset;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #333;
+    border-radius: 50%; /* círculo */
+    background-color: #414141;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+  }
 
+  .radio-wrapper label {
+    gap: 0.5rem;
+  }
 
-.radio-custom {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #333;
-  border-radius: 50%; /* círculo */
-  background-color: #414141;
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  
-}
+  .radio-custom:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: #6b7f9e;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
 
-.radio-wrapper label{
-  gap: 0.5rem;
-}
-
-.radio-custom:checked::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  background-color: #6b7f9e;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* tabela */
+  /* tabela */
   table {
     border-collapse: collapse;
     margin: 1rem;
@@ -191,6 +193,6 @@ export const Container = styled.div`
   }
 
   tr:hover {
-  background-color: #9b9898;
-}
-`
+    background-color: #9b9898;
+  }
+`;
