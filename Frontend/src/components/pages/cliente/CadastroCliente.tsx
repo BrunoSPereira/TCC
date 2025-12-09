@@ -1,13 +1,15 @@
 import * as Style from "./Cliente.Styled";
 import { MdPerson } from "react-icons/md";
 import { useForm, Controller } from "react-hook-form";
-import Modal from "../../modais/modalCancel";
-import React, { useState, useEffect } from "react";
+import ModalCancel from "../../modais/modalCancel";
+import ModalDelete from "../../modais/modalDelete";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { cadastrarCliente, consultarClientePorId, excluirCliente } from "./Cliente.Function";
 import { Cliente, clienteVazio } from "../../../Models/cliente";
 import { useParams } from "react-router-dom";
 import { IMaskInput } from "react-imask";
+import { toast } from "react-toastify";
 
 type ErrorMessageProps = {
   error?: string;
@@ -21,6 +23,8 @@ export const ErrorMessage = ({ error }: ErrorMessageProps) => {
 export function CadastroCliente() {
   const { id_cliente } = useParams<{ id_cliente?: string }>();
   const [openModal, setOpenModal] = useState(false);
+  const [openModalDelete, setOpenModalDelete] = useState(false);
+
   const navigate = useNavigate();
 
   const {
@@ -60,26 +64,23 @@ export function CadastroCliente() {
   const onSubmit = async (dados: Cliente) => {
     const sucesso = await cadastrarCliente(dados);
     if (sucesso) {
-      alert("Cliente salvo com sucesso!");
+      toast.success("Cliente salvo com sucesso!");
       navigate("/consultaCliente");
     } else {
-      alert("Erro ao salvar cliente!");
+      toast.error("Erro ao salvar cliente :(");
     }
   };
 
     const handleExcluir = async (cliente: Cliente) => {
 
-      const confirma = window.confirm(`Deseja excluir ${cliente.razao_social}`);
-      if (!confirma) return;
-
       const sucesso = await excluirCliente(cliente);
 
-      if (sucesso){
-        alert("Cliente excluido com sucesso!");
-        navigate("/consultaCliente");
-      } else{
-        alert("Erro ao excluir cliente.")
-      }
+    if (sucesso) {
+      toast.success("Cliente excluído com sucesso!");
+      navigate("/consultaCliente");
+    } else {
+      toast.error("Erro ao excluir cliente.");
+    }
 
     }
 
@@ -123,10 +124,6 @@ export function CadastroCliente() {
               control={control}
               rules={{
                   required: "O campo é obrigatório", 
-                  pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Digite apenas números",
-                }
               }}
               render={({ field }) => (
                 <IMaskInput
@@ -222,10 +219,6 @@ export function CadastroCliente() {
               control={control}
               rules={{
                 required: "O campo é obrigatório",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Digite apenas números",
-                }
               }}
               render={({ field }) => (
                 <IMaskInput
@@ -311,8 +304,12 @@ export function CadastroCliente() {
           </div>
         </div>
 
+      </form>
+
         <div className="Buttons">
-          <button type="submit" className="Salvar">
+          <button type="submit" 
+                  className="Salvar"
+                    onClick={handleSubmit(onSubmit)}>
             Salvar
           </button>
 
@@ -327,13 +324,13 @@ export function CadastroCliente() {
           <button
             type="button"
             className="Excluir"
-            onClick={() => handleExcluir(clienteAtual)}
+            onClick={() => setOpenModalDelete(true)}
           >
             Excluir
           </button>
         </div>
 
-        <Modal
+        <ModalCancel
           isOpen={openModal}
           setOpenModal={setOpenModal}
           onConfirm={() => {
@@ -342,7 +339,17 @@ export function CadastroCliente() {
             navigate("/consultaCliente");
           }}
         />
-      </form>
+
+         <ModalDelete
+          isOpen={openModalDelete}
+          setOpenModal={setOpenModalDelete}
+          onConfirm={() => {
+            handleExcluir(clienteAtual)
+            reset(clienteVazio);
+            setOpenModalDelete(false);
+          }}
+        />
+      
     </Style.Container>
   );
 }

@@ -3,6 +3,7 @@ import { consultarCliente } from "./Cliente.Function";
 import { useEffect, useState } from "react";
 import { Cliente } from "../../../Models/cliente";
 import { useNavigate } from "react-router-dom";
+import { MdPerson } from "react-icons/md";
 
 export function ConsultaCliente() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -23,14 +24,12 @@ export function ConsultaCliente() {
   return (
     <>
       <Style.Container>
-        <button
-          type="button"
-          className="Incluir"
-          onClick={() => navigate("/CadastroCliente")}
-        >
-          Incluir
-        </button>
 
+        <p className="icon">
+        <MdPerson /> Cadastro de Clientes
+        </p>
+
+        <div className="tableContainer"> 
         <table>
           <thead>
             <tr>
@@ -66,6 +65,16 @@ export function ConsultaCliente() {
             )}
           </tbody>
         </table>
+        </div>
+
+        <button
+          type="button"
+          className="Incluir"
+          onClick={() => navigate("/CadastroCliente")}
+        >
+          Incluir
+        </button>
+
       </Style.Container>
     </>
   );

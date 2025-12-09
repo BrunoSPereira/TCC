@@ -6,19 +6,24 @@ export const Container = styled.div`
   }
 
   form {
+  overflow-y: auto;  
+  flex: 1;        
+  gap: 1.5rem;
+
     background-color: #303030;
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 5px;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    max-width: 100%;
+    max-height: 75vh;
+    box-sizing: border-box; 
+
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+ }
 
-    width: 100%;
-    max-width: 100%;
-
-    box-sizing: border-box;
-    overflow: auto;
-  }
 
   .input {
     all: unset;
@@ -65,7 +70,6 @@ export const Container = styled.div`
     display: flex;
     gap: 10px;
     align-items: center;
-    margin: 0.5rem;
   }
 
 
@@ -102,6 +106,11 @@ export const Container = styled.div`
     border: 3px #c72e2e solid;
     color: #c72e2e;
     margin-left: auto;
+  }
+
+   .Incluir{
+    background-color: #6b7f9e;
+    color: #ffffff;
 
   }
 
@@ -180,19 +189,42 @@ export const Container = styled.div`
   }
 
   /* tabela */
-  table {
-    border-collapse: collapse;
-    margin: 1rem;
+  .tableContainer{
+    max-height: 75vh;       
+    overflow-y: auto;        
+    border-radius: 8px; 
+    background-color: #333;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tableContainer table {
+    border-collapse: separate;
+    width: 100%;
+    border-spacing: 0
   }
 
-  td,
-  th {
-    padding: 0.75rem;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
+  .tableContainer thead th {
+  position: sticky;       
+  top: 0;
+  font-weight: 600;
+  padding: 15px;
+  z-index: 5;
+  background-color: #6b7f9e;
+}
 
-  tr:hover {
-    background-color: #9b9898;
-  }
+.tableContainer tbody td {
+  padding: 15px 10px;
+  text-align: center;
+
+}
+
+.tableContainer tbody tr:nth-child(even) {
+  background-color: #3d3d3d;
+}
+
+.tableContainer tbody tr:hover {
+  background-color: #181818;
+}
+
 `;

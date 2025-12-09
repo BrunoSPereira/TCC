@@ -42,7 +42,7 @@ export async function excluirCliente(cliente: Cliente): Promise<boolean> {
 
     try {
     const response = await api.delete(`/clientes/${cliente.id_cliente}`);
-    return response.status === 200;
+    return response.status === 200 || response.status === 204;
 
   } catch (error) {
     console.error("Erro na exclusão de clientes:", error);
