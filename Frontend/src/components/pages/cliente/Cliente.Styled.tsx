@@ -6,9 +6,9 @@ export const Container = styled.div`
   }
 
   form {
-  overflow-y: auto;  
-  flex: 1;        
-  gap: 1.5rem;
+    overflow-y: auto;  
+    flex: 1;        
+    gap: 1.5rem;
 
     background-color: #303030;
     padding: 1rem;
@@ -23,7 +23,6 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
  }
-
 
   .input {
     all: unset;
@@ -72,6 +71,21 @@ export const Container = styled.div`
     align-items: center;
   }
 
+  .eraser{
+    font-size: 1.5rem;
+    align-items: center;
+    color: #6b7f9e;
+  }
+  
+  .inputFiltro{
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0rem 1rem 0rem
+  }
+
+  .btnFiltro{
+    all:unset
+  }
 
 //Buttons
 
@@ -190,7 +204,8 @@ export const Container = styled.div`
 
   /* tabela */
   .tableContainer{
-    max-height: 75vh;       
+    max-height: 65vh; 
+    min-height:  65vh; 
     overflow-y: auto;        
     border-radius: 8px; 
     background-color: #333;
