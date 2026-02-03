@@ -1,4 +1,4 @@
-import * as Style from "./modal.Styled";
+import * as Style from "../../Styles/modal.Styled";
 
 type ModalProps = {
   onConfirm: () => void;

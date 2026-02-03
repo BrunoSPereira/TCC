@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "../modais/modalLogout";
-import * as Style from "./UserTag.Styed";
+import * as Style from "../../Styles/profileCardStyled";
 import { MdLogout, MdSettings } from "react-icons/md";
 
 type UserTagProps = {

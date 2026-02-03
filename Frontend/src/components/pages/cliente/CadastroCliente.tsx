@@ -1,4 +1,4 @@
-import * as Style from "./Cliente.Styled";
+import * as Style from "../../../Styles/CadastrosStyled";
 import { MdPerson } from "react-icons/md";
 import { useForm, Controller } from "react-hook-form";
 import ModalCancel from "../../modais/modalCancel";
@@ -87,7 +87,7 @@ export function CadastroCliente() {
   return (
     <Style.Container>
       <p className="icon">
-        <MdPerson /> Cadastro de Clientes
+        <MdPerson /> Clientes
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -161,7 +161,7 @@ export function CadastroCliente() {
 
           <div>
             <label>Observação</label>
-            <input className="input" type="text" {...register("observacao")} />
+            <input className="obsInput" type="text" {...register("observacao")} />
           </div>
 
           <div className="radio-wrapper">
@@ -309,24 +309,22 @@ export function CadastroCliente() {
         <div className="Buttons">
           <button type="submit" 
                   className="Salvar"
-                    onClick={handleSubmit(onSubmit)}>
-            Salvar
+                    onClick={handleSubmit(onSubmit)}
+          > Salvar
           </button>
 
           <button
             type="button"
             className="Cancelar"
             onClick={() => setOpenModal(true)}
-          >
-            Cancelar
+          > Cancelar
           </button>
 
           <button
             type="button"
             className="Excluir"
             onClick={() => setOpenModalDelete(true)}
-          >
-            Excluir
+          > Excluir
           </button>
         </div>
 
@@ -343,6 +341,7 @@ export function CadastroCliente() {
          <ModalDelete
           isOpen={openModalDelete}
           setOpenModal={setOpenModalDelete}
+          entidade="o cliente"
           onConfirm={() => {
             handleExcluir(clienteAtual)
             reset(clienteVazio);

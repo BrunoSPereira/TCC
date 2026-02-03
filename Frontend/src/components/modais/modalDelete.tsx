@@ -1,24 +1,25 @@
-import * as Style from "./modal.Styled";
+import * as Style from "../../Styles/modal.Styled";
 
 type ModalProps = {
   onConfirm: () => void;
   isOpen: boolean;
   setOpenModal: (open: boolean) => void;
+  entidade: string;
 };
 
-export default function Modal({ isOpen, setOpenModal, onConfirm }: ModalProps) {
+export default function Modal({ isOpen, setOpenModal, onConfirm, entidade }: ModalProps) {
   if (!isOpen) return null;
 
   return (
     <Style.Container>
       <div className="ModalStyle">
-        <p>Tem certeza que deseja Excluir o cliente?</p>
+        <p>Tem certeza que deseja excluir {entidade}?</p>
 
         <div className="Buttons">
           <button className="sim" onClick={onConfirm}>
             Sim
           </button>
-
+ 
           <button className="nao" onClick={() => setOpenModal(false)}>
             Não
           </button>

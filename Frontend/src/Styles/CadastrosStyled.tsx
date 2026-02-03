@@ -53,6 +53,18 @@ export const Container = styled.div`
     width: 3rem;
   }
 
+  .obsInput{
+    all: unset;
+    background-color: #414141;
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    width: 40rem;
+  }
+
   .sessao {
     border: 2px #dededee0 solid;
     border-radius: 6px;
@@ -66,6 +78,7 @@ export const Container = styled.div`
 
   .icon {
     font-size: 20px;
+    font-weight: 500;
     display: flex;
     gap: 10px;
     align-items: center;

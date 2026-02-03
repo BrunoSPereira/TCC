@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SideBar } from "./components/sidebar/sideBar";
 import { MainContent } from "./components/main/mainContent";
-import { GlobalStyle } from "./GlobalStyle";
+import { GlobalStyle } from "./Styles/GlobalStyle";
 import { BrowserRouter } from "react-router-dom";
 import Login from "./components/pages/login/login";
 import { ToastContainer } from "react-toastify";

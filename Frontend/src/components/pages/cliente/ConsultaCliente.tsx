@@ -1,12 +1,12 @@
-import * as Style from "./Cliente.Styled";
+import * as Style from "../../../Styles/CadastrosStyled";
 import { consultarCliente } from "./Cliente.Function";
 import { useEffect, useState } from "react";
 import { Cliente } from "../../../Models/cliente";
 import { useNavigate } from "react-router-dom";
 import { MdPerson } from "react-icons/md";
-import { FaEraser } from "react-icons/fa";
 
 export function ConsultaCliente() {
+  
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [clientesFiltrados, setClientesFiltrados] = useState<Cliente[]>([]);
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ export function ConsultaCliente() {
   return (
     <Style.Container>
       <p className="icon">
-        <MdPerson /> Cadastro de Clientes
+        <MdPerson /> Clientes
       </p>
 
       <div className="inputFiltro">
@@ -138,8 +138,7 @@ export function ConsultaCliente() {
         type="button"
         className="Incluir"
         onClick={() => navigate("/CadastroCliente")}
-      >
-        Incluir
+      > Incluir
       </button>
 
       

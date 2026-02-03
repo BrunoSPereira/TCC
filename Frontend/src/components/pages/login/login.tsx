@@ -1,4 +1,4 @@
-import * as Style from "./login.Styled";
+import * as Style from "../../../Styles/login.Styled";
 import { useState } from "react";
 import { Log } from "./login.Function";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
