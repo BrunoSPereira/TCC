@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 import * as Style from "../../Styles/main.Styled";
 
-import CadastroCliente from "../pages/cliente/CadastroCliente";
-import ConsultaCliente from "../pages/cliente/ConsultaCliente";
+import CadastroCliente from "../pages/Cliente/CadastroCliente";
+import ConsultaCliente from "../pages/Cliente/ConsultaCliente";
 
-import CadastroProduto from "../pages/produto/CadastroProdutos";
-import ConsultaProduto from "../pages/produto/ConsultaProduto";
+import CadastroProduto from "../pages/Produto/CadastroProdutos";
+import ConsultaProduto from "../pages/Produto/ConsultaProduto";
 
-import CadastroTecnico from "../pages/tecnicos/CadastroTecnico";
-import ConsultaTecnico from "../pages/tecnicos/ConsultaTecnico";
+import CadastroTecnico from "../pages/Tecnicos/CadastroTecnico";
+import ConsultaTecnico from "../pages/Tecnicos/ConsultaTecnico";
 
 import ConsultaOs from "../pages/OrdemServico/ConsultaOs";
 import CadastroOs from "../pages/OrdemServico/CadastroOs";
