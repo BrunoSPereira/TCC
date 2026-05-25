@@ -116,6 +116,7 @@ export function CadastroOs() {
       const valorHora = Number(
         String(servicoEncontrado?.valor_servico || "0")
           .replace("R$", "")
+          .replace("$", "")
           .replace(",", ".")
           .trim(),
       );
