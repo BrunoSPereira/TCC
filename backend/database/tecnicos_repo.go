@@ -3,10 +3,8 @@ package database
 import (
 	"context"
 	"database/sql"
-	"errors"
 
 	"github.com/giogiovana/TCC/models"
-	"github.com/lib/pq"
 )
 
 type TecnicoRepo interface {
@@ -18,8 +16,6 @@ type TecnicoRepo interface {
 }
 
 type TecnicoRepoPG struct{ db *DAO }
-
-var ErrUsuarioFKInexistente = errors.New("usuario inexistente")
 
 func NewTecnicoRepo(db *DAO) *TecnicoRepoPG { return &TecnicoRepoPG{db: db} }
 
@@ -52,17 +48,22 @@ func (r *TecnicoRepoPG) Create(ctx context.Context, in models.TecnicoCreate) (mo
 	}
 
 	const qTecnico = `
-		insert into tecnicos (id_pessoa, usuario, especialidade, fg_ativo)
-		values ($1, $2, $3, $4)
-		returning id_tecnico 
-	`
-	var IdTecnico string
-	if err = tx.QueryRowContext(ctx, qTecnico, idPessoa, in.Usuario, in.Especialidade, in.FgAtivo).Scan(&IdTecnico); err != nil {
-		if pgerr, ok := err.(*pq.Error); ok && string(pgerr.Code) == "23503" {
-			return models.Tecnico{}, ErrUsuarioFKInexistente
-		}
-		return models.Tecnico{}, err
-	}
+	insert into tecnicos (id_pessoa, especialidade, fg_ativo)
+	values ($1, $2, $3)
+	returning id_tecnico
+`
+
+var IdTecnico string
+
+if err = tx.QueryRowContext(
+	ctx,
+	qTecnico,
+	idPessoa,
+	in.Especialidade,
+	in.FgAtivo,
+).Scan(&IdTecnico); err != nil {
+	return models.Tecnico{}, err
+}
 
 	if err = tx.Commit(); err != nil {
 		return models.Tecnico{}, err
@@ -83,7 +84,6 @@ func (r *TecnicoRepoPG) Create(ctx context.Context, in models.TecnicoCreate) (mo
 		Uf:            in.Uf,
 		Telefone:      in.Telefone,
 		Email:         in.Email,
-		Usuario:       in.Usuario,
 		Especialidade: in.Especialidade,
 		FgAtivo:       in.FgAtivo,
 	}
@@ -94,7 +94,7 @@ func (r *TecnicoRepoPG) GetById(ctx context.Context, id string) (*models.Tecnico
 	const q = `
 	select te.id_tecnico, pe.razao_social, pe.nome_fantasia, pe.cpf_cnpj,
 	pe.rg_ie, pe.fg_tipo, pe.cep, pe.logradouro, pe.numero,
-	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, te.usuario, te.especialidade,
+	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, te.especialidade,
 	te.fg_ativo
 	from tecnicos te inner join pessoas pe on pe.id_pessoa = te.id_pessoa
 	where te.id_tecnico = $1
@@ -113,7 +113,7 @@ func (r *TecnicoRepoPG) List(ctx context.Context, limit, offset int) ([]models.T
 	const q = `
 	select te.id_tecnico, pe.razao_social, pe.nome_fantasia, pe.cpf_cnpj,
 	pe.rg_ie, pe.fg_tipo, pe.cep, pe.logradouro, pe.numero,
-	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, te.usuario, te.especialidade,
+	pe.bairro, pe.cidade, pe.uf, pe.telefone, pe.email, te.especialidade,
 	te.fg_ativo
 	from tecnicos te inner join pessoas pe on pe.id_pessoa = te.id_pessoa
 	order by te.id_tecnico LIMIT $1 OFFSET $2`
@@ -138,19 +138,22 @@ func (r *TecnicoRepoPG) Update(ctx context.Context, in *models.Tecnico) error {
 
 	var idPessoa int64
 	const qTecnico = `
-	update tecnicos set
-		usuario = coalesce(nullif($2, ''), usuario),
-		especialidade = coalesce(nullif($3, ''), especialidade),
-		fg_ativo = coalesce(nullif($4, ''), fg_ativo)
-	where id_tecnico = $1
-	returning id_pessoa
-	`
-	if err := tx.QueryRowContext(ctx, qTecnico, in.IdTecnico, nullIfEmpty(in.Usuario), nullIfEmpty(in.Especialidade), nullIfEmpty(in.FgAtivo)).Scan(&idPessoa); err != nil {
-		if pgerr, ok := err.(*pq.Error); ok && string(pgerr.Code) == "23503" {
-			return err.(*pq.Error)
-		}
-		return err
-	}
+update tecnicos set
+	especialidade = coalesce(nullif($2, ''), especialidade),
+	fg_ativo = coalesce(nullif($3, ''), fg_ativo)
+where id_tecnico = $1
+returning id_pessoa
+`
+
+if err := tx.QueryRowContext(
+	ctx,
+	qTecnico,
+	in.IdTecnico,
+	nullIfEmpty(in.Especialidade),
+	nullIfEmpty(in.FgAtivo),
+).Scan(&idPessoa); err != nil {
+	return err
+}
 
 	const qPessoa = `
 	update pessoas set

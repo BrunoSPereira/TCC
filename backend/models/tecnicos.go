@@ -15,7 +15,6 @@ type TecnicoCreate struct {
 	Cidade       string `json:"cidade"`
 	Uf           string `json:"uf"`
 
-	Usuario       string `json:"usuario"`
 	Especialidade string `json:"especialidade"`
 	FgAtivo       string `json:"fg_ativo"`
 }
@@ -35,7 +34,6 @@ type Tecnico struct {
 	Uf            string `db:"uf" json:"uf"`
 	Telefone      string `db:"telefone" json:"telefone"`
 	Email         string `db:"email" json:"email"`
-	Usuario       string `db:"usuario" json:"usuario"`
 	Especialidade string `db:"especialidade" json:"especialidade"`
 	FgAtivo       string `db:"fg_ativo" json:"fg_ativo"`
 }
@@ -54,7 +52,6 @@ type TecnicoUpdate struct {
 	Uf            *string `json:"uf,omitempty"`
 	Telefone      *string `json:"telefone,omitempty"`
 	Email         *string `json:"email,omitempty"`
-	Usuario       *string `json:"usuario,omitempty"`
 	Especialidade *string `json:"especialidade,omitempty"`
 	FgAtivo       *string `json:"fg_ativo,omitempty"`
 }

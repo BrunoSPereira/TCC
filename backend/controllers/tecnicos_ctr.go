@@ -3,12 +3,10 @@ package controllers
 import (
 	"database/sql"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 
-	"github.com/giogiovana/TCC/database"
 	"github.com/giogiovana/TCC/models"
 	"github.com/giogiovana/TCC/services"
 	"github.com/go-chi/chi/v5"
@@ -43,10 +41,6 @@ func (c *TecnicoController) create(w http.ResponseWriter, r *http.Request) {
 		case *pq.Error:
 			if string(e.Code) == "23505" { // unique_violation
 				respondErr(w, http.StatusConflict, "cpf_cnpj já cadastrado")
-				return
-			}
-			if errors.Is(err, database.ErrUsuarioFKInexistente) {
-				respondErr(w, http.StatusConflict, database.ErrUsuarioFKInexistente.Error())
 				return
 			}
 			respondErr(w, http.StatusInternalServerError, err.Error())

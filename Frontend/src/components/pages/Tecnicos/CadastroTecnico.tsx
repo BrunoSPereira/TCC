@@ -154,11 +154,6 @@ export const CadastroTecnico = () => {
           </div>
 
           <div>
-            <label>Usuário</label>
-            <input className="input" {...register("usuario", {})} />
-          </div>
-
-          <div>
             <label>Especialidade</label>
             <input className="input" {...register("especialidade", {})} />
           </div>

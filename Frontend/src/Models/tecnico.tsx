@@ -13,7 +13,6 @@ export type Tecnico = {
   bairro: string;
   cidade: string;
   uf: string;
-  usuario: string;
   especialidade: string;
   fg_ativo: "S" | "N";
 };
@@ -32,7 +31,6 @@ export const tecnicoVazio: Tecnico = {
   bairro: "",
   cidade: "",
   uf: "",
-  usuario: "",
   especialidade: "",
   fg_ativo: "S",
   fg_tipo: "F",

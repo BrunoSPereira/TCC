@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -88,10 +87,6 @@ func (s *TecnicoService) Update(ctx context.Context, idTecnico string, in models
 		t.Email = strings.TrimSpace(*in.Email)
 	}
 
-	if in.Usuario != nil {
-		t.Usuario = strings.TrimSpace(*in.Usuario)
-	}
-
 	if in.Especialidade != nil {
 		t.Especialidade = strings.TrimSpace(*in.Especialidade)
 	}
@@ -101,9 +96,6 @@ func (s *TecnicoService) Update(ctx context.Context, idTecnico string, in models
 	}
 
 	if err := s.repo.Update(ctx, &t); err != nil {
-		if errors.Is(err, database.ErrUsuarioFKInexistente) {
-			return models.Tecnico{}, database.ErrUsuarioFKInexistente
-		}
 		return models.Tecnico{}, err
 	}
 
