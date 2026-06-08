@@ -174,7 +174,7 @@ export const Container = styled.div`
   .radio-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px; /* espaço entre checkbox e label */
+    gap: 8px; 
   }
 
   .radio-custom {
@@ -182,7 +182,7 @@ export const Container = styled.div`
     width: 16px;
     height: 16px;
     border: 2px solid #333;
-    border-radius: 50%; /* círculo */
+    border-radius: 50%; 
     background-color: #414141;
     cursor: pointer;
     display: inline-block;
@@ -208,7 +208,6 @@ export const Container = styled.div`
   /* tabela */
   .tableContainer {
     max-height: 65vh;
-    /* min-height:  65vh;  */
     overflow-y: auto;
     border-radius: 8px;
     background-color: #333;

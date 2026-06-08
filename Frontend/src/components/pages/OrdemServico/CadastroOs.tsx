@@ -23,7 +23,8 @@ import { carregarLookups } from "../../../services/LookupService.tsx";
 import {
   cadastrarOrdemServico,
   consultarOrdemServicoPorId,
-  excluirOrdemServico} from "../../../services/index.tsx";
+  excluirOrdemServico,
+} from "../../../services/index.tsx";
 
 type ErrorMessageProps = {
   error?: string;

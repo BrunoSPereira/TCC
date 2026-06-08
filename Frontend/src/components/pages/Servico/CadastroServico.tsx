@@ -3,7 +3,6 @@ import { MdSettings } from "react-icons/md";
 import { useForm, Controller } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { IMaskInput } from "react-imask";
 import { toast } from "react-toastify";
 import {
   cadastrarServico,
@@ -34,8 +33,6 @@ export const CadastroServico = () => {
     handleSubmit,
     reset,
     watch,
-    setValue,
-    control,
     formState: { errors },
   } = useForm<Servico>({
     defaultValues: servicoVazio,
@@ -60,7 +57,6 @@ export const CadastroServico = () => {
 
     carregarServico();
   }, [id_servico, reset]);
-  
 
   const onSubmit = async (dados: Servico) => {
     const sucesso = await cadastrarServico(dados);
@@ -84,13 +80,12 @@ export const CadastroServico = () => {
   };
 
   return (
-     <Style.Container>
-         <p className="icon">
-            <MdSettings /> Serviços
-        </p>
-        
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <Style.Container>
+      <p className="icon">
+        <MdSettings /> Serviços
+      </p>
 
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="sessao">
           <div>
             <label>ID</label>
@@ -131,88 +126,86 @@ export const CadastroServico = () => {
             <ErrorMessage error={errors.valor_servico?.message} />
           </div>
 
-           <div>
-        <label>Tempo estimado</label>
-        <input
-            className="input"
-            step="0.01"
-            min="0"
-            {...register("tempo_estimado", {
-            required: "O campo é obrigatório",
-            pattern: {
-                value: /^\d+(\.\d+)?$/,
-                message: "Digite apenas números",
-            },
-            })}
-        />
-        <ErrorMessage error={errors.tempo_estimado?.message} />
+          <div>
+            <label>Tempo estimado</label>
+            <input
+              className="input"
+              step="0.01"
+              min="0"
+              {...register("tempo_estimado", {
+                required: "O campo é obrigatório",
+                pattern: {
+                  value: /^\d+(\.\d+)?$/,
+                  message: "Digite apenas números",
+                },
+              })}
+            />
+            <ErrorMessage error={errors.tempo_estimado?.message} />
+          </div>
+
+          <div>
+            <label>Categoria</label>
+            <input
+              className="input"
+              {...register("categoria", {
+                required: "O campo é obrigatório",
+              })}
+            />
+            <ErrorMessage error={errors.categoria?.message} />
+          </div>
         </div>
+      </form>
 
-        <div>
-        <label>Categoria</label>
-        <input
-            className="input"
-            {...register("categoria", {
-            required: "O campo é obrigatório",
-            })}
-        />
-        <ErrorMessage error={errors.categoria?.message} />
-        </div>
-        </div>
+      <div className="Buttons">
+        <button
+          type="submit"
+          className="Salvar"
+          onClick={handleSubmit(onSubmit)}
+        >
+          {" "}
+          Salvar
+        </button>
 
-        </form>
+        <button
+          type="button"
+          className="Cancelar"
+          onClick={() => setOpenModal(true)}
+        >
+          {" "}
+          Cancelar
+        </button>
 
-        <div className="Buttons">
-                <button
-                  type="submit"
-                  className="Salvar"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  {" "}
-                  Salvar
-                </button>
-        
-                <button
-                  type="button"
-                  className="Cancelar"
-                  onClick={() => setOpenModal(true)}
-                >
-                  {" "}
-                  Cancelar
-                </button>
-        
-                <button
-                  type="button"
-                  className="Excluir"
-                  onClick={() => setOpenModalDelete(true)}
-                >
-                  {" "}
-                  Excluir
-                </button>
-              </div>
-        
-              <ModalCancel
-                isOpen={openModal}
-                setOpenModal={setOpenModal}
-                onConfirm={() => {
-                  reset(servicoVazio);
-                  setOpenModal(false);
-                  navigate("/consultaServico");
-                }}
-              />
-        
-              <ModalDelete
-                isOpen={openModalDelete}
-                setOpenModal={setOpenModalDelete}
-                entidade="o servico"
-                onConfirm={() => {
-                  handleExcluir(servicoAtual);
-                  reset(servicoVazio);
-                  setOpenModalDelete(false);
-                }}
-              />
+        <button
+          type="button"
+          className="Excluir"
+          onClick={() => setOpenModalDelete(true)}
+        >
+          {" "}
+          Excluir
+        </button>
+      </div>
 
-     </Style.Container>
+      <ModalCancel
+        isOpen={openModal}
+        setOpenModal={setOpenModal}
+        onConfirm={() => {
+          reset(servicoVazio);
+          setOpenModal(false);
+          navigate("/consultaServico");
+        }}
+      />
+
+      <ModalDelete
+        isOpen={openModalDelete}
+        setOpenModal={setOpenModalDelete}
+        entidade="o servico"
+        onConfirm={() => {
+          handleExcluir(servicoAtual);
+          reset(servicoVazio);
+          setOpenModalDelete(false);
+        }}
+      />
+    </Style.Container>
   );
 };
 

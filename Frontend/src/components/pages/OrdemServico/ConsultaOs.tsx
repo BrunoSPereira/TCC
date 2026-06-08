@@ -63,8 +63,8 @@ export const consultarOs = () => {
 
   const getClienteNome = (id: string) => {
     return (
-      clientes.find((c) => String(c.id_cliente) === String(id))
-        ?.razao_social || id
+      clientes.find((c) => String(c.id_cliente) === String(id))?.razao_social ||
+      id
     );
   };
 
@@ -79,7 +79,8 @@ export const consultarOs = () => {
 
     if (descricao.includes("aberta")) return "status-aberta";
 
-    if (descricao.includes("atendimento") || descricao.includes("aguardando") ) return "status-andamento";
+    if (descricao.includes("atendimento") || descricao.includes("aguardando"))
+      return "status-andamento";
 
     if (descricao.includes("finalizada")) return "status-finalizada";
 

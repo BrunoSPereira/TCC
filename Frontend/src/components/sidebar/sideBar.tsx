@@ -1,12 +1,7 @@
 import * as Style from "../../Styles/SideBarStyled";
 import UserTag from "./UserTag";
 import { NavLink } from "react-router-dom";
-import {
-  MdPerson,
-  MdInventory2,
-  MdBuild,
-  MdSettings,
-} from "react-icons/md";
+import { MdPerson, MdInventory2, MdBuild, MdSettings } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 
 type SideBarProps = {

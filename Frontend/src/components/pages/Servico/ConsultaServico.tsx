@@ -50,7 +50,6 @@ export const consultaServico = () => {
 
   return (
     <Style.Container>
-      
       <p className="icon">
         <MdSettings /> Serviços
       </p>

@@ -1,68 +1,29 @@
 import api from "../api";
 import { Tecnico } from "../Models/index";
 
-export async function cadastrarTecnico(
-  tecnico: Tecnico
-): Promise<boolean> {
-
+export async function cadastrarTecnico(tecnico: Tecnico): Promise<boolean> {
   try {
-
     if (tecnico.id_tecnico) {
-
       const response = await api.put(
         `/tecnicos/${tecnico.id_tecnico}`,
-        tecnico
+        tecnico,
       );
 
-      console.log(
-        "STATUS ALTERAÇÃO:",
-        response.status
-      );
+      console.log("STATUS ALTERAÇÃO:", response.status);
 
-      return (
-        response.status >= 200 &&
-        response.status < 300
-      );
+      return response.status >= 200 && response.status < 300;
     }
+    const response = await api.post("/tecnicos", tecnico);
+    console.log("STATUS INCLUSÃO:", response.status);
 
-    const response = await api.post(
-      "/tecnicos",
-      tecnico
-    );
-
-    console.log(
-      "STATUS INCLUSÃO:",
-      response.status
-    );
-
-    return (
-      response.status >= 200 &&
-      response.status < 300
-    );
-
-  } catch (error:any) {
-
-    console.error(
-      "Erro no cadastro de técnicos:",
-      error
-    );
+    return response.status >= 200 && response.status < 300;
+  } catch (error: any) {
+    console.error("Erro no cadastro de técnicos:", error);
 
     if (error.response) {
-
-      console.log(
-        "STATUS:",
-        error.response.status
-      );
-
-      console.log(
-        "MSG:",
-        error.response.data
-      );
-
-      console.log(
-        "PAYLOAD:",
-        JSON.parse(error.config?.data)
-      );
+      console.log("STATUS:", error.response.status);
+      console.log("MSG:", error.response.data);
+      console.log("PAYLOAD:", JSON.parse(error.config?.data));
     }
 
     return false;

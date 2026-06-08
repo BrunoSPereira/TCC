@@ -201,9 +201,9 @@ export default function ModalServico({
                   {...register("qtd_horas_servico", {
                     required: "Digite a quantidade de horas",
                     pattern: {
-                                value: /^\d+$/,
-                                message: "Digite apenas números",
-                              },
+                      value: /^\d+$/,
+                      message: "Digite apenas números",
+                    },
                   })}
                 />
                 <ErrorMessage error={errors.qtd_horas_servico?.message} />

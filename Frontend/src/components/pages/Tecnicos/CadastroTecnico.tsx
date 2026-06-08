@@ -64,7 +64,6 @@ export const CadastroTecnico = () => {
   }, [id_tecnico, reset]);
 
   const onSubmit = async (dados: Tecnico) => {
-    
     const sucesso = await cadastrarTecnico(dados);
     if (sucesso) {
       toast.success("Tecnico salvo com sucesso!");
@@ -92,7 +91,6 @@ export const CadastroTecnico = () => {
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* personal info */}
 
         <div className="sessao">
           <div>
@@ -193,7 +191,6 @@ export const CadastroTecnico = () => {
           </div>
         </div>
 
-        {/* Contato */}
 
         <div className="sessao">
           <div>
@@ -228,7 +225,6 @@ export const CadastroTecnico = () => {
           </div>
         </div>
 
-        {/* Endereço */}
 
         <div className="sessao">
           <div>

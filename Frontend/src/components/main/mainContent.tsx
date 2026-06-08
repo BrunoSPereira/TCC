@@ -22,7 +22,6 @@ export const MainContent = () => {
       <Style.Container>
         <div className="content">
           <Routes>
-
             <Route path="/ConsultaCliente" element={<ConsultaCliente />} />
             <Route
               path="/CadastroCliente/:id_cliente?"

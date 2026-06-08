@@ -91,7 +91,6 @@ export function CadastroCliente() {
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* personal info */}
 
         <div className="sessao">
           <div>
@@ -205,7 +204,6 @@ export function CadastroCliente() {
           </div>
         </div>
 
-        {/* Contato */}
 
         <div className="sessao">
           <div>
@@ -240,7 +238,6 @@ export function CadastroCliente() {
           </div>
         </div>
 
-        {/* Endereço */}
 
         <div className="sessao">
           <div>

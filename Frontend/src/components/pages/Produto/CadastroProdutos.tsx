@@ -5,7 +5,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { cadastrarProduto, consultarProdutoPorId, excluirProduto} from "../../../services/ProdutoService.tsx";
+import {
+  cadastrarProduto,
+  consultarProdutoPorId,
+  excluirProduto,
+} from "../../../services/ProdutoService.tsx";
 import { ModalDelete, ModalCancel } from "../../modais/index.tsx";
 import { Produto, produtoVazio } from "../../../Models/produto.tsx";
 
